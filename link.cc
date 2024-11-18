@@ -1,6 +1,6 @@
 #include "link.h"
 
-const int boardSize;
+const int boardSize = 8;
 
 Link::Link(int posX, int posY, int strength): posX{posX}, posY{posY}, strength{strength},
 isRevealed{false}, isData{false}, isBoosted{false}, isDownloaded{false}, isDiagonal{false} {}
@@ -16,7 +16,7 @@ void Link::setPosY(int y) {posY = y;}
 
 int Link::getStrenth() {return strength;}
 
-int Link::setStrength(int s) {strength = s;}
+void Link::setStrength(int s) {strength = s;}
 
 bool Link::getIsRevealed() {return isRevealed;}
 

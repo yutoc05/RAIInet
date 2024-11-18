@@ -5,14 +5,14 @@ class Link {
     int posX, posY, strength;
     bool isRevealed, isData, isBoosted, isDownloaded, isDiagonal;
     public:
-    Link(int posX, int posY);
+    Link(int posX, int posY, int strength);
     ~Link() = default;
     int getPosX();
     void setPosX(int x);
     int getPosY();
     void setPosY(int y);
     int getStrenth();
-    int setStrength(int s);
+    void setStrength(int s);
     bool getIsRevealed();
     bool getIsData();
     bool getIsBoosted();
