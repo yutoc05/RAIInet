@@ -5,6 +5,8 @@ class Link {
     int posX, posY, strength;
     bool isRevealed, isData, isBoosted, isDownloaded, isDiagonal;
     public:
+    Link(int posX, int posY);
+    ~Link() = default;
     int getPosX();
     void setPosX(int x);
     int getPosY();

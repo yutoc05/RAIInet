@@ -1,5 +1,9 @@
 #include "link.h"
 
+Link::Link(int posX, int posY, int strength): posX{posX}, posY{posY}, strength{strength},
+isRevealed{false}, isData{false}, isBoosted{false}, isDownloaded{false}, isDiagonal{false} {}
+//default all booleans to false
+
 int Link::getPosX() {return posX;}
 
 void Link::setPosX(int x) {posX = x;}
