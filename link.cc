@@ -1,5 +1,7 @@
 #include "link.h"
 
+const int boardSize;
+
 Link::Link(int posX, int posY, int strength): posX{posX}, posY{posY}, strength{strength},
 isRevealed{false}, isData{false}, isBoosted{false}, isDownloaded{false}, isDiagonal{false} {}
 //default all booleans to false
@@ -36,10 +38,26 @@ bool Link::getIsDiagonal() {return isDiagonal;}
 
 void Link::reveal() {isRevealed = true;}
 
-void Link::moveU() {posY++;}
+void Link::moveU() {
+    if (posY < boardSize) {
+        posY++;
+    } 
+}
 
-void Link::moveD() {posY--;}
+void Link::moveD() {
+    if (posY > 0) {
+        posY--;
+    }
+}
 
-void Link::moveL() {posX--;}
+void Link::moveL() {
+    if (posX > 0) {
+        posX--;
+    }   
+}
 
-void Link::moveR() {posX++;}
+void Link::moveR() {
+    if (posX < boardSize) {
+        posX++;
+    }
+}
