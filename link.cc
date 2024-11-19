@@ -39,7 +39,7 @@ bool Link::getIsDiagonal() {return isDiagonal;}
 void Link::reveal() {isRevealed = true;}
 
 void Link::moveU() {
-    if (posY < boardSize) {
+    if (posY < (boardSize - 1)) {
         posY++;
     } 
 }
@@ -57,7 +57,7 @@ void Link::moveL() {
 }
 
 void Link::moveR() {
-    if (posX < boardSize) {
+    if (posX < (boardSize - 1)) {
         posX++;
     }
 }
