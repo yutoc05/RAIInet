@@ -19,10 +19,16 @@ void Cell::setState(char c) {
     notifyObservers();
 }
 
+char Cell::getState() {
+    return state;
+}
+
 void Cell::addLink(unique_ptr<Link> l) {
     l->setPosX(col);
     l->setPosY(row);
+    state = l->getSymbol();
     link = move(l);
+    notifyObservers();
 }
 
 void Cell::detachLink() {
@@ -107,11 +113,13 @@ void Cell::attachObserver(Observer *o) {
     observers.push_back(o);
 }
 
+
 void Cell::notifyObservers() {
     for (Observer* o : observers) {
-        o->notify(*this);
+        o->notify();
     }
 }
+
 
 /* Tested works as expected - RT Nov. 21
 int main() {

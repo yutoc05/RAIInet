@@ -3,9 +3,17 @@
 #include <iostream>
 using namespace std;
 
-Link::Link(int posX, int posY, int strength): posX{posX}, posY{posY}, strength{strength},
-isRevealed{false}, isData{false}, isBoosted{false}, isDownloaded{false}, isDiagonal{false} {}
+Link::Link(int posX, int posY, int strength, char symbol): posX{posX}, posY{posY}, strength{strength},
+symbol{symbol}, isRevealed{false}, isData{false}, isBoosted{false}, isDownloaded{false}, isDiagonal{false} {}
 //default all booleans to false
+
+char Link::getSymbol() {
+    return symbol;
+}
+
+void Link::setSymbol(char c) {
+    symbol = c;
+}
 
 int Link::getPosX() {return posX;}
 
@@ -55,7 +63,7 @@ void Link::moveR() {
     posX++;
 }
 
-/* Tested works as expected
+/* Tested works as expected - RT Nov. 21
 int main() {
     unique_ptr<Link> p1 = std::make_unique<Link>(0, 0, 1);
     //test movement

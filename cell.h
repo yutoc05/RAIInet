@@ -18,6 +18,7 @@ class Cell {
     public:
     Cell(int row, int col, bool server);
     void setState(char state);
+    char getState();
     void addLink(unique_ptr<Link> link);
     void detachLink();
     bool hasLink();

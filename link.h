@@ -3,10 +3,13 @@
 
 class Link {
     int posX, posY, strength;
+    char symbol;
     bool isRevealed, isData, isBoosted, isDownloaded, isDiagonal;
     public:
-    Link(int posX, int posY, int strength);
+    Link(int posX, int posY, int strength, char symbol);
     ~Link() = default;
+    char getSymbol();
+    void setSymbol(char c);
     int getPosX();
     void setPosX(int x);
     int getPosY();
