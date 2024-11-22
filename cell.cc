@@ -16,7 +16,6 @@ Cell::Cell(int row, int col, bool server): row{row}, col{col},
 
 void Cell::setState(char c) {
     state = c;
-    notifyObservers();
 }
 
 char Cell::getState() {
@@ -28,7 +27,6 @@ void Cell::addLink(unique_ptr<Link> l) {
     l->setPosY(row);
     state = l->getSymbol();
     link = move(l);
-    notifyObservers();
 }
 
 void Cell::detachLink() {
