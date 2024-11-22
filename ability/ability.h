@@ -1,3 +1,5 @@
+//JUST AN EXAMPLE
+
 #ifndef _ABILITY_H_
 #define _ABILITY_H_
 
