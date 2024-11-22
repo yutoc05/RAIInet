@@ -11,7 +11,7 @@ class Link {
     void setPosX(int x);
     int getPosY();
     void setPosY(int y);
-    int getStrenth();
+    int getStrength();
     void setStrength(int s);
     bool getIsRevealed();
     bool getIsData();
