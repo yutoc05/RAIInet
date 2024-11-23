@@ -22,15 +22,15 @@ Abilities:
 - D: Download
 - P: Polarize
 - S: Scan
-- O: Move Link
-- A: Sabotage
-- T: Strength Boost
+- M: Diagonal
+- B: Blackhole
+- T: Extra Strength
 */
 
 class Ability {
-    int id;              // the id of the ability
+    int type;              // the id of the ability
     bool isUsed = false; // has the ability been used yet?
-    string abilityName;  // the name of the ability: Move Link, Sabotage, etc.
+    string abilityName;  
     protected:
         void setUsed(bool value);
         unique_ptr<Game> theGame;
@@ -39,7 +39,7 @@ class Ability {
         //virtual ~Ability() = 0;
         ~Ability();
         virtual void activate(Player& player, Player& opponent) = 0; // pure virtual function
-        int getId() const;                 // returns the id of the ability
+        int getType() const;                 // returns the id of the ability
         bool checkUsed() const;            // returns whether the ability has been used
         string getAbility() const;           // returns the ability name
         
