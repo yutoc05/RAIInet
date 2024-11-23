@@ -4,7 +4,7 @@ using namespace std;
 
 // Player p1;
 // Player p2;
-// bool whoseTurn = true; // true for p1
+// bool whoseTurn = true; // true for p1   //CHANGE TO INTEGER VALUES OF 1 OR 0
 // TextDisplay *td;
 // Board theBoard;
 
@@ -107,10 +107,10 @@ void Game::moveLink(char id, char dir)
     Player *curPlayer = theirTurn(whoseTurn);
     Player *curOpponent = theirTurn(!whoseTurn);
 
-    // check if link is sabotaged
-    if (curPlayer->getPureLink(id).checkIfSabotaged()) {
-        throw logic_error {"You can't move a sabotaged link. Try again."};
-    }
+    // // check if link is sabotaged
+    // if (curPlayer->getPureLink(id).checkIfSabotaged()) {
+    //     throw logic_error {"You can't move a sabotaged link. Try again."};
+    // }
 
     // old position
     int posX = curPlayer->getPureLink(id).getPosX();
@@ -235,7 +235,7 @@ void Game::moveLink(char id, char dir)
             posX = curPlayer->getPureLink(id).getPosX();
             posY = curPlayer->getPureLink(id).getPosY();
             b->theBoard[posY][posX].setState(id);
-            throw logic_error {"Don't attack your own link!. Try again."};
+            throw logic_error {"Don't attack your own link! Try again."};
         }
         // at this point, it should be certain that the cell's state is the other player's link
         int curLinkLevel = curPlayer->getPureLink(id).getStrength();

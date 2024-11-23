@@ -17,6 +17,7 @@ class Board;
 class Game {
     unique_ptr<Player> p1 = make_unique<Player>(nullptr); // for more than two players, can do an arr/vec of players
     unique_ptr<Player> p2 = make_unique<Player>(nullptr);
+    //CHANGE TO INT
     bool whoseTurn = true;     // true for playerOne, false for playerTwo 
 
     unique_ptr<Board> b = make_unique<Board>();
@@ -29,6 +30,7 @@ class Game {
     Game();
     ~Game();
     Player* getCurrentPlayer();
+    //CHANGE TO INT LOGIC
     Player* theirTurn(bool who); // returns player1 if true, player2 otherwise
     void initPlayerOne(unique_ptr<Player> player1);
     void initPlayerTwo(unique_ptr<Player> player2);

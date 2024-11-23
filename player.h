@@ -45,7 +45,7 @@ class Player {
         void downloadLink(Link& currLink); //increment the number of data/virus downloaded
         Link& getLink(char id); // get link at id (a-h) or (A-H)
         Link& getPureLink(char id); // get link at id (a-h) or (A-H) NO EXCEPTION SAFETY NEEDED
-        bool hasSabotagedLink(); // plays guessing game if one is sabotaged to fix
+        //bool hasSabotagedLink(); // plays guessing game if one is sabotaged to fix
 
         void addAbility(char ability); // adds ability 'L', 'S', etc.
         void addLink(char id, string link); // adds link during setup. id is 'a','D', etc.
