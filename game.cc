@@ -4,13 +4,13 @@ using namespace std;
 
 // Player p1;
 // Player p2;
-// bool whoseTurn = true; // true for p1   //CHANGE TO INTEGER VALUES OF 1 OR 0
+// int turn = 1; // true for p1   //CHANGE TO INTEGER VALUES OF 1 OR 0
 // TextDisplay *td;
 // Board theBoard;
 
-Player *Game::theirTurn(bool who)
+Player *Game::theirTurn(int who)
 {
-    if (who)
+    if (who == 1)
         return p1.get();
     else
         return p2.get();
@@ -18,7 +18,7 @@ Player *Game::theirTurn(bool who)
 
 Player *Game::getCurrentPlayer()
 {
-    return theirTurn(whoseTurn);
+    return theirTurn(turn);
 }
 
 Game::Game() : p1{nullptr}, p2{nullptr}, td{new TextDisplay}, gd{nullptr} {}
@@ -29,8 +29,8 @@ void Game::initPlayerOne(unique_ptr<Player> player1) { p1 = move(player1); }
 
 void Game::initPlayerTwo(unique_ptr<Player> player2) { p2 = move(player2); }
 
-bool Game::checkWhoseTurn() {
-    return whoseTurn;
+bool Game::checkTurn() {
+    return turn;
 }
 
 Board *Game::getBoard()
@@ -57,7 +57,9 @@ bool Game::checkFinished()
 
 void Game::toggleTurn()
 {
-    whoseTurn = !whoseTurn;
+    if (turn == 1) return 2;
+    if (turn == 2) return 1;
+    // whoseTurn = !whoseTurn;
 }
 
 void Game::init()
@@ -94,8 +96,8 @@ void Game::init()
 void Game::useAbility(int i)
 {
     if (i < 0 || i > 5) throw logic_error {"Ability index out of range. Try again."};
-    Player *curPlayer = theirTurn(whoseTurn);
-    Player *opponent = theirTurn(!whoseTurn);
+    Player *curPlayer = theirTurn(turn);
+    Player *opponent = theirTurn(!turn); //WRONG, NOT BOOL
     curPlayer->useAbility(i, *opponent);
 }
 
@@ -104,8 +106,8 @@ void Game::useAbility(int i)
 // edits the board
 void Game::moveLink(char id, char dir)
 {
-    Player *curPlayer = theirTurn(whoseTurn);
-    Player *curOpponent = theirTurn(!whoseTurn);
+    Player *curPlayer = theirTurn(turn);
+    Player *curOpponent = theirTurn(!turn); //WRONG, NOT BOOL
 
     // // check if link is sabotaged
     // if (curPlayer->getPureLink(id).checkIfSabotaged()) {
@@ -140,7 +142,7 @@ void Game::moveLink(char id, char dir)
     }
 
     // moving
-    curPlayer->moveLink(id, dir, whoseTurn);
+    curPlayer->moveLink(id, dir, turn);
 
     // cout << posX << posY;
 
@@ -151,7 +153,7 @@ void Game::moveLink(char id, char dir)
     // cout << posX << posY;
 
     // if lands on Server port / download edge
-    if (whoseTurn == true)
+    if (turn == 1)
     { // p1's turn
         if ((posX == 3 || posX == 4) && posY == 7)
         { // p2's server ports
@@ -163,7 +165,7 @@ void Game::moveLink(char id, char dir)
         }
         else if ((posX == 3 || posX == 4) && posY == 0)
         { // own server port!?
-            curPlayer->moveLink(id, oppDir, whoseTurn);
+            curPlayer->moveLink(id, oppDir, turn);
             posX = curPlayer->getPureLink(id).getPosX();
             posY = curPlayer->getPureLink(id).getPosY();
             b->theBoard[posY][posX].setState(id);
@@ -171,14 +173,14 @@ void Game::moveLink(char id, char dir)
         }
         else if (posX > 7 || posY > 7 || posX < 0 || posY < 0)
         { // off the map!!?
-            curPlayer->moveLink(id, oppDir, whoseTurn);
+            curPlayer->moveLink(id, oppDir, turn);
             posX = curPlayer->getPureLink(id).getPosX();
             posY = curPlayer->getPureLink(id).getPosY();
             b->theBoard[posY][posX].setState(id);
             throw logic_error {"You can't move your link off the board. Try again."};
         }
     }
-    else if (whoseTurn == false)
+    else if (turn == 2)
     { // p2's turn
         if ((posX == 3 || posX == 4) && posY == 0)
         { // p1's server ports
@@ -190,7 +192,7 @@ void Game::moveLink(char id, char dir)
         }
         else if ((posX == 3 || posX == 4) && posY == 7)
         { // own server port!?
-            curPlayer->moveLink(id, oppDir, whoseTurn);
+            curPlayer->moveLink(id, oppDir, turn);
             posX = curPlayer->getPureLink(id).getPosX();
             posY = curPlayer->getPureLink(id).getPosY();
             b->theBoard[posY][posX].setState(id);
@@ -198,7 +200,7 @@ void Game::moveLink(char id, char dir)
         }
         else if (posX > 7 || posY > 7 || posX < 0 || posY < 0)
         { // off the map!!?
-            curPlayer->moveLink(id, oppDir, whoseTurn);
+            curPlayer->moveLink(id, oppDir, turn);
             posX = curPlayer->getPureLink(id).getPosX();
             posY = curPlayer->getPureLink(id).getPosY();
             b->theBoard[posY][posX].setState(id);
@@ -207,8 +209,8 @@ void Game::moveLink(char id, char dir)
     }
 
     // if it lands on other player's firewall
-    if ((whoseTurn == true && b->getCell(posY, posX)->isPlayerTwoFirewall()) ||
-        (whoseTurn == false && b->getCell(posY, posX)->isPlayerOneFirewall()))
+    if ((turn == 1 && b->getCell(posY, posX)->isPlayerTwoFirewall()) ||
+        (turn == 2 && b->getCell(posY, posX)->isPlayerOneFirewall()))
     {
         cout << "You've trespassed onto your opponent's Firewall!" << endl;
         curPlayer->getPureLink(id).reveal();
@@ -224,14 +226,14 @@ void Game::moveLink(char id, char dir)
     else if (b->getCell(posY, posX)->getState() != '.')
     {
         char linkState = b->getCell(posY, posX)->getState();
-        if ((whoseTurn == true && (linkState == 'a' || linkState == 'b' || linkState == 'c' 
+        if ((turn == 1 && (linkState == 'a' || linkState == 'b' || linkState == 'c' 
                                     || linkState == 'd' || linkState == 'e' || linkState == 'f' 
                                     || linkState == 'g' || linkState == 'h'))
-            || (whoseTurn == false && (linkState == 'A' || linkState == 'B' || linkState == 'C' 
+            || (turn == 2 && (linkState == 'A' || linkState == 'B' || linkState == 'C' 
                                     || linkState == 'D' || linkState == 'E' || linkState == 'F' 
                                     || linkState == 'G' || linkState == 'H')))
         { // try to attack own link!?!?
-            curPlayer->moveLink(id, oppDir, whoseTurn);
+            curPlayer->moveLink(id, oppDir, turn);
             posX = curPlayer->getPureLink(id).getPosX();
             posY = curPlayer->getPureLink(id).getPosY();
             b->theBoard[posY][posX].setState(id);
@@ -262,7 +264,7 @@ void Game::moveLink(char id, char dir)
 
 void Game::printAbilities()
 {
-    Player *curPlayer = theirTurn(whoseTurn);
+    Player *curPlayer = theirTurn(turn);
     curPlayer->printAbilities();
 } // printAbilities
 
@@ -290,7 +292,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
         if (g.p1->getPureLink(ch).checkIfData()) linkType = "D";
         else linkType = "V";
         // print depends on whether the link has been revealed
-        if (!g.whoseTurn && !g.p1->getPureLink(ch).checkIfRevealed()) {
+        if (g.turn == 2 && !g.p1->getPureLink(ch).checkIfRevealed()) {
             out << ch << ": " << "? " << " ";
         }
         else out << ch << ": " << linkType << g.p1->getPureLink(ch).getStrength() << " ";
@@ -301,7 +303,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
         string linkType;
         if (g.p1->getPureLink(ch).checkIfData()) linkType = "D";
         else linkType = "V";
-        if (!g.whoseTurn && !g.p1->getPureLink(ch).checkIfRevealed()) {
+        if (g.turn == 2 && !g.p1->getPureLink(ch).checkIfRevealed()) {
             out << ch << ": " << "? " << " ";
         }
         else out << ch << ": " << linkType << g.p1->getPureLink(ch).getStrength() << " ";
@@ -325,7 +327,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
         string linkType;
         if (g.p2->getPureLink(ch).checkIfData()) linkType = "D";
         else linkType = "V";
-        if (g.whoseTurn && !g.p2->getPureLink(ch).checkIfRevealed()) {
+        if (g.turn == 1 && !g.p2->getPureLink(ch).checkIfRevealed()) {
             out << ch << ": " << "? " << " ";
         }
         else out << ch << ": " << linkType << g.p2->getPureLink(ch).getStrength() << " ";
@@ -336,7 +338,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g)
         string linkType;
         if (g.p2->getPureLink(ch).checkIfData()) linkType = "D";
         else linkType = "V";
-        if (g.whoseTurn && !g.p2->getPureLink(ch).checkIfRevealed()) {
+        if (g.turn == 1 && !g.p2->getPureLink(ch).checkIfRevealed()) {
             out << ch << ": " << "? " << " ";
         }
         else out << ch << ": " << linkType << g.p2->getPureLink(ch).getStrength() << " ";

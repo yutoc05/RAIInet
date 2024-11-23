@@ -24,7 +24,7 @@ void Firewall::activate(Player& player, Player& opponent) {
         // Board& gameBoard = Board::getInstance();
         // Cell* selectedCell = gameBoard.getCell(row, col);
         if (selectedCell && selectedCell->getState() == '.') {
-            char firewallSymbol = player.getGame()->checkWhoseTurn() ? 'm' : 'w';
+            char firewallSymbol = player.getGame()->checkTurn() ? 'm' : 'w';
             setUsed(true);
             selectedCell->setState(firewallSymbol); // This will notify TextDisplay to update
             cout << "Firewall " << firewallSymbol << " has been set at (" 
@@ -32,7 +32,7 @@ void Firewall::activate(Player& player, Player& opponent) {
             cout << *player.getGame()->getBoard();
 
             // define whose firewall it is for the cell
-            if (player.getGame()->checkWhoseTurn()) selectedCell->setPlayerOneFirewall();
+            if (player.getGame()->checkTurn()) selectedCell->setPlayerOneFirewall();
             else selectedCell->setPlayerTwoFirewall();
             
             break;

@@ -18,7 +18,7 @@ class Game {
     unique_ptr<Player> p1 = make_unique<Player>(nullptr); // for more than two players, can do an arr/vec of players
     unique_ptr<Player> p2 = make_unique<Player>(nullptr);
     //CHANGE TO INT
-    bool whoseTurn = true;     // true for playerOne, false for playerTwo 
+    int turn = 1;     // 1 for playerOne, 2 for playerTwo 
 
     unique_ptr<Board> b = make_unique<Board>();
     
@@ -31,10 +31,12 @@ class Game {
     ~Game();
     Player* getCurrentPlayer();
     //CHANGE TO INT LOGIC
-    Player* theirTurn(bool who); // returns player1 if true, player2 otherwise
+    Player* theirTurn(bool who); // returns player1 if 1, player2 otherwise
+
     void initPlayerOne(unique_ptr<Player> player1);
     void initPlayerTwo(unique_ptr<Player> player2);
-    bool checkWhoseTurn(); // returns true if player 1's turn, false otherwise
+    
+    bool checkTurn(); // returns true if player 1's turn, false otherwise
     Board* getBoard(); // returns the board by pointer
     bool checkFinished();   // check if the game has finished- check if any player
                             // has 4 viruses or 4 data

@@ -28,10 +28,10 @@ void Download::activate(Player& player, Player& opponent ) {
         if (link.checkIfDownloaded()) {
             cout << "Link " << id << " has already been downloaded. Please re-enter the link name: ";
         } 
-        else if ((player.getGame()->checkWhoseTurn() && (id == 'a' || id == 'b' || id == 'c' || 
+        else if ((player.getGame()->checkTurn() && (id == 'a' || id == 'b' || id == 'c' || 
                                                         id == 'd' || id == 'e' || id == 'f' || 
                                                         id == 'g' || id == 'h')) ||
-                (!player.getGame()->checkWhoseTurn() && (id == 'A' || id == 'B' || id == 'C' || 
+                (!player.getGame()->checkTurn() && (id == 'A' || id == 'B' || id == 'C' || 
                                                         id == 'D' || id == 'E' || id == 'F' || 
                                                         id == 'G' || id == 'H'))) {
             throw logic_error {"You must download your opponent's link, not your own. Try again."};

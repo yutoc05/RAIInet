@@ -20,11 +20,11 @@ void ExtraStrength::activate(Player& player, Player& opponent ) {
         cin >> id;
 
         Link *l; // pointer to the link we strengthening
-        if (player.getGame()->checkWhoseTurn() && (id == 'a' || id == 'b' || id == 'c' || id == 'd' ||
+        if (player.getGame()->checkTurn() && (id == 'a' || id == 'b' || id == 'c' || id == 'd' ||
                 id == 'e' || id == 'f' || id == 'g' || id == 'h')) {
             l = &player.getPureLink(id);
         }
-        else if (!player.getGame()->checkWhoseTurn() && (id == 'A' || id == 'B' || id == 'C' || 
+        else if (!player.getGame()->checkTurn() && (id == 'A' || id == 'B' || id == 'C' || 
             id == 'D' || id == 'E' || id == 'F' || id == 'G' || id == 'H')) {
             l = &player.getPureLink(id);
         }
