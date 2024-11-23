@@ -16,7 +16,7 @@
 #include "ability/download.h"
 #include "ability/polarize.h"
 #include "ability/scan.h"
-#include "ability/movediagnonal.h"
+#include "ability/movediagonal.h"
 #include "ability/blackhole.h"
 #include "ability/extrastrength.h"
 

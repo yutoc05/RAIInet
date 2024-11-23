@@ -24,7 +24,7 @@ Abilities:
 - S: Scan
 - M: Diagonal
 - B: Blackhole
-- T: Extra Strength
+- E: Extra Strength
 */
 
 class Ability {

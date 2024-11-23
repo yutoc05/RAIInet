@@ -18,9 +18,9 @@ Player::~Player() {
 //         case 'D': return Download();
 //         case 'P': return Polarize();
 //         case 'S': return Scan();
-//         case 'M': return MoveLink() ;
-//         case 'B': return Sabotage();
-//         case 'T': return StrengthBoost();
+//         case 'M': return MoveDiagonal() ;
+//         case 'B': return Blackhole();
+//         case 'E': return ExtraStrength();
 //     }
 
     //if has to do with enum class
@@ -30,9 +30,9 @@ Player::~Player() {
 //         case 'D': return theAbilities::DOWNLOAD;
 //         case 'P': return theAbilities::POLARIZE;
 //         case 'S': return theAbilities::SCAN;
-//         case 'O': return theAbilities::MOVELINK;
-//         case 'A': return theAbilities::SABOTAGE;
-//         case 'T': return theAbilities::STRENGTHBOOST;
+//         case 'M': return theAbilities::MOVEDIAGONAL;
+//         case 'B': return theAbilities::BLACKHOLE;
+//         case 'E': return theAbilities::EXTRASTRENGTH;
 //         default:  return theAbilities::UNKNOWN;
 //     }
 // }
@@ -82,35 +82,27 @@ Link& Player::getPureLink(char id) {
     return it->second;  // Return the value associated with the key 'id'
 }
 
-bool Player::hasSabotagedLink() {
-    for (auto i : links) {
-        if (i.second.checkIfSabotaged()) {
-            char choices[3] = {'a','b','c'};
-            srand((int)time(0)); // seed for random based on time
-            int correctIndex = (rand() % 3);
-            cout << "You have a sabotaged link, " << i.first << "." << endl;
-            cout << "You must guess either a, b, or c to try and fix it: ";
-            char guess;
-            cin >> guess;
-            if (guess == choices[correctIndex]) {
-                i.second.setIsSabotaged(false);
-                cout << "Congrats, you have fixed your link!" << endl;
-            }
-            else cout << "Bummer, it's still sabotaged." << endl;
-            break;
-        }
-    }
-    return false;
-}
-
-// char ids[8] = {'a','b','c','d','e','f','g','h'};
-//         vector<string> theLinks = {"D1", "D2", "D3", "D4", "V1", "V2", "V3", "V4"};
-//         for (int i = 0; i < 8; ++i) {
+// bool Player::hasSabotagedLink() {
+//     for (auto i : links) {
+//         if (i.second.checkIfSabotaged()) {
+//             char choices[3] = {'a','b','c'};
 //             srand((int)time(0)); // seed for random based on time
-//             int index = (rand() % (8-i)); // get index of the link we take from theLinks randomly
-//             p1->addLink(ids[i], theLinks[index]); // add this link to p1's links
-//             theLinks.erase(theLinks.begin()+index); // remove this link from theLinks so no duplicate
-//         } // for
+//             int correctIndex = (rand() % 3);
+//             cout << "You have a sabotaged link, " << i.first << "." << endl;
+//             cout << "You must guess either a, b, or c to try and fix it: ";
+//             char guess;
+//             cin >> guess;
+//             if (guess == choices[correctIndex]) {
+//                 i.second.setIsSabotaged(false);
+//                 cout << "Congrats, you have fixed your link!" << endl;
+//             }
+//             else cout << "Bummer, it's still sabotaged." << endl;
+//             break;
+//         }
+//     }
+//     return false;
+// }
+
 
 // add to numData or numVirus after download
 void Player::downloadLink(Link& currLink) {
@@ -135,7 +127,7 @@ void Player::addAbility(char ability) {
                 case 'P': abilities[i] = make_unique<Polarize>(); break;
                 case 'M': abilities[i] = make_unique<MoveDiagonal>(); break;
                 case 'B': abilities[i] = make_unique<Blackhole>(); break;
-                case 'T': abilities[i] = make_unique<ExtraStrength>(); break;
+                case 'E': abilities[i] = make_unique<ExtraStrength>(); break;
             }
             break;
         }

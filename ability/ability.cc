@@ -17,7 +17,7 @@ Ability::~Ability(){
     
 }
 //getter for ID
-int Ability::getType) const{
+int Ability::getType() const{
     return type;
 }
 
