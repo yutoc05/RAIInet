@@ -1,12 +1,12 @@
-#ifndef _OBSERVER_H_
-#define _OBSERVER_H_
-//#include "studio.h" commented out so I can compile
+#ifndef OBSERVER_H
+#define OBSERVER_H
+// includes TBD
 
-class Cell;
+class Cell; // not sure why Cell needs to be forward declared here
 
 class Observer {
-    public:
-    virtual void notify() = 0;
+   public:
+    virtual void notify() = 0; // Notify method that must be overwritten by concrete observers
     //c is the cell that call notify
     virtual ~Observer() = default;
 };
