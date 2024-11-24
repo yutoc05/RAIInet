@@ -26,7 +26,6 @@ class Link {
     void setIsDiagonal(bool value);
     bool getIsDiagonal();
     void reveal();
-    bool getIsRevealed();
     void moveU();
     void moveD();
     void moveL();

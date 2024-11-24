@@ -2,9 +2,11 @@
 #include "board.h"
 #include "link.h"
 #include "cell.h"
+#include "player.h"
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <memory>
 using namespace std;
 
 Game::Game() : p1{nullptr}, p2{nullptr}, td{new TextDisplay}, gd{nullptr} {}
@@ -16,12 +18,14 @@ void Game::initPlayerOne(unique_ptr<Player> player1) { p1 = move(player1); }
 void Game::initPlayerTwo(unique_ptr<Player> player2) { p2 = move(player2); }
 
 void Game::moveLink(char id, char dir) {
+    Player *curPlayer;
+    Player *curOpponent;
     if (turn == 1) {
-        Player *curPlayer = player1;
-        Player *curOpponent = player2;
+        curPlayer = player1->get();
+        curOpponent = player2->get();
     } else {
-        Player *curPlayer = player2;
-        Player *curOpponent = player1;
+        curPlayer = player2->get();
+        curOpponent = player1->get();
     }
 
     // old position
@@ -156,46 +160,60 @@ void Game::moveLink(char id, char dir) {
 void Game::useAbility(int i) {
     if (i < 0 || i > 5) throw logic_error {"Ability index out of range. Try again."};
     if (turn == 1) {
-        Player *curPlayer = player1;
-        Player *opponent = player2;
+        Player *curPlayer = player1->get();
+        Player *opponent = player2->get();
+        player1->useAbility(i, *opponent);
     } else {
-        Player *curPlayer = player2;
-        Player *opponent = player1;
+        Player *curPlayer = player2->get();
+        Player *opponent = player1->get();
+        curPlayer->useAbility(i, *opponent);
     }
-    curPlayer->useAbility(i, *opponent);
 }
 
-int Game::turn() { return turn; }
+int Game::getTurn() { return turn; }
 
 void Game::printAbilities() {
-    Player *curPlayer = theirTurn(turn);
-    curPlayer->printAbilities();
+    if (turn == 1) {
+        player1->printAbilities();
+    } else {
+        player2->printAbilities();
+    }
 }
 
-void Game::enableGrapics() {
+/*
+void Game::enableGraphics() {
     showGraphic = true;
 }
 
 bool Game::isGraphicsEnabled() {
     return showGraphic;
 }
+*/
 
 string Game::playerInfo(int player) {
+    Player *curPlayer;
+    if (turn == 1) {
+        curPlayer = player1->get();
+    } else {
+        curPlayer = player2->get();
+    }
+
     stringstream ss;
     ss << "Downloaded: ";
-    ss << player1->getNumData() << "D,  " << getNumVirus() << "V" << endl;
+    
 
     if (player == 1) {
+        ss << curPlayer->getNumData() << "D,  " << curPlayer->getNumVirus() << "V" << endl;
         int counter = 0;
-        for (int i = 0; i < player1->getOwns().size(); ++i) {
-            ss << player1->getOwns()[i]->getSymbol() << ": ";
+        for (int i = 0; i < curPlayer->getOwns().size(); ++i) {
+            ss << curPlayer->getOwns()[i]->getSymbol() << ": ";
             if (turn == 1) {
                 //Data or virus?
-                player1->getOwns()[i]->getIsData() ? ss << "D" : ss << "V";
-                ss << player1->getOwns()[i]->getStrength() << " ";
-            } else if (player1->getOwns()[i]->getIsRevealed()) { //turn 2 & revealed
-                player1->getOwns()[i]->getIsData() ? ss << "D" : ss << "V";
-                ss << player1->getOwns()[i]->getStrength() << " ";
+                curPlayer->getOwns()[i]->getIsData() ? ss << "D" : ss << "V";
+                ss << curPlayer->getOwns()[i]->getStrength() << " ";
+            } else if (curPlayer->getOwns()[i]->getIsRevealed()) { //turn 2 & revealed
+                curPlayer->getOwns()[i]->getIsData() ? ss << "D" : ss << "V";
+                ss << curPlayer->getOwns()[i]->getStrength() << " ";
             } else { //turn 2 & not revealed
                 ss << "? ";
             }
@@ -206,6 +224,7 @@ string Game::playerInfo(int player) {
             }
         }
     } else (player == 2) {
+        ss << player2->getNumData() << "D,  " << player2->getNumVirus() << "V" << endl;
         int counter = 0;
         for (int i = 0; i < player2->getOwns().size(); ++i) {
             ss << player2->getOwns()[i]->getSymbol() << ": ";

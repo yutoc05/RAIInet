@@ -47,8 +47,6 @@ bool Link::getIsDiagonal() {return isDiagonal;}
 
 void Link::reveal() {isRevealed = true;}
 
-bool getIsRevealed() {return isRevealed;}
-
 void Link::moveU() {
     posY--;
 }

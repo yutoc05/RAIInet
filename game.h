@@ -1,6 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
 #include "board.h"
+#include "link.h"
+#include "cell.h"
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <memory>
+using namespace std;
 
 class Game {
     unique_ptr<Board> b;
@@ -8,7 +15,7 @@ class Game {
     unique_ptr<Player> player1;
     unique_ptr<Player> player2;
     unique_ptr<TextDisplay> td = make_unique<TextDisplay>();
-    unique_ptr<GraphicsDisplay> gd;
+    //unique_ptr<GraphicsDisplay> gd;
     bool showGraphic;
     int turn;
     public:
@@ -18,7 +25,7 @@ class Game {
     void initPlayerTwo(unique_ptr<Player> player2);
     void move(char id, char dir);
     void useAbility(int i);
-    int turn();
+    int getTurn();
     void printAbilities();
     void enableGraphics();
     bool isGraphicsEnabled();

@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 #include <iostream>
-using namespace std;
 
 using namespace std;
 
@@ -30,7 +29,7 @@ void Cell::addLink(unique_ptr<Link> l) {
 }
 
 unique_ptr<Link> Cell::detachLink() {
-    return link;
+    return move(link);
 }
 
 bool Cell::hasLink() {
@@ -40,8 +39,8 @@ bool Cell::hasLink() {
     return false;
 }
 
-int Cell::getLink() {
-    return link;
+Link* Cell::getLink() {
+    return link.get();
 }
 
 bool Cell::isServer() const{
