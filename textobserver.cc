@@ -1,4 +1,5 @@
 #include "textobserver.h"
+#include "game.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -39,3 +40,21 @@ void TextObserver::notify() {
     // cout << "A: " << /*game-> link(D or V)+strength*/ << " B: " << /*game-> link(D or V)+strength*/ << " C: " << /*game-> link(D or V)+strength*/ << " D: " << /*game-> link(D or V)+strength*/ << endl;
     // cout << "E: " << /*game-> link(D or V)+strength*/ << " F: " << /*game-> link(D or V)+strength*/ << " G: " << /*game-> link(D or V)+strength*/ << " H: " << /*game-> link(D or V)+strength*/ << endl;
 }
+
+/*
+void TextObserver::notify(Cell& c) {
+    // Update a specific cell
+    theDisplay[c.getRow()][c.getCol()] = c.getState();
+}
+
+
+std::ostream& operator<<(std::ostream& out, const TextObserver& to) {
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            out << to.theDisplay[i][j] << " ";
+        }
+        out << std::endl;
+    }
+    return out;
+}
+*/

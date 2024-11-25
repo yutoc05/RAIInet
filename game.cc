@@ -1,4 +1,7 @@
 #include "game.h"
+#include "player.h"
+#include "board.h"
+#include "textobserver.h"
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -317,6 +320,10 @@ bool Game::isGraphicsEnabled() {
     return showGraphic;
 }
 */
+
+string Game::playerInfo(int player) {
+    return "playerInfo needs to be changed";
+}
 
 /*
 string Game::playerInfo(int player) {

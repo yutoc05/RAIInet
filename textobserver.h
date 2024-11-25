@@ -4,7 +4,7 @@
 #include <string>
 #include "observer.h"
 #include "cell.h"
-#include "game.h"
+
 class Game;
 
 class TextObserver : public Observer {
@@ -13,6 +13,8 @@ class TextObserver : public Observer {
     TextObserver();
     void addGame(Game* g);
     void notify() override;  // Overridden notify to be called when user inputs command "board"
+    //void notify(Cell& c) override;  // Cell-specific updates
+    //friend std::ostream& operator<<(std::ostream& out, const TextObserver& to);
 };
 
 #endif

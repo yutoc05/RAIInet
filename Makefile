@@ -6,28 +6,23 @@
 # % make [ a.out ]
 
 ########## Variables ##########
+CXX = g++-11 -std=c++20
+CXXFLAGS = -Wall -g -MMD -Werror=vla  # use -MMD to generate dependencies
+SOURCES = ${wildcard *.cc ability/*.cc}     # list of all .cc files in the current directory
 
-CXX = g++-11					# compiler
-CXXFLAGS = -std=c++20 -g -Wall -Werror=vla -MMD			# compiler flags
-MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
+OBJECTS = ${SOURCES:.cc=.o}  # .o files depend upon .cc files with same names
+DEPENDS = ${OBJECTS:.o=.d}   # .d file is list of dependencies for corresponding .cc file
+EXEC=raiinet
 
-SOURCES = $(wildcard *.cc)			# source files (*.cc)
-OBJECTS = ${SOURCES:.cc=.o}			# object files forming executable
-DEPENDS = ${OBJECTS:.o=.d}			# substitute ".o" with ".d"
-EXEC = exec					# executable name
+# First target in the makefile is the default taårget.
+$(EXEC): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXEC) -lX11
 
-########## Targets ##########
+%.o: %.cc 
+	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
-.PHONY : clean					# not file names
+-include ${DEPENDS}
 
-${EXEC} : ${OBJECTS}				# link step
-	${CXX} ${CXXFLAGS} $^ -o $@ -lX11		# additional object files before $^
-
-${OBJECTS} : ${MAKEFILE_NAME}			# OPTIONAL : changes to this file => recompile
-
-# make implicitly generates rules to compile C++ files that generate .o files
-
--include ${DEPENDS}				# include *.d files containing program dependences
-
-clean :						# remove files that can be regenerated
-	rm -f ${DEPENDS} ${OBJECTS} ${EXEC}
+.PHONY: clean 
+clean:
+	rm  -f $(OBJECTS) $(DEPENDS) $(EXEC)

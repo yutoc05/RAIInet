@@ -4,10 +4,11 @@
 #include <vector>
 #include <string> // Include string explicitly
 #include <memory>
-#include "observer.h"
-#include "link.h"
 
 using namespace std;
+
+class Link;
+class Observer;
 
 
 class Cell {

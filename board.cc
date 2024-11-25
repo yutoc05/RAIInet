@@ -1,4 +1,8 @@
 #include "board.h"
+#include "player.h"
+#include "subject.h"
+#include "cell.h"
+#include "textobserver.h"
 #include <memory>
 #include <vector>
 #include <iostream>
@@ -20,6 +24,10 @@ void Board::init(TextObserver* td) {
             board[i][j]->attachObserver(td); // Attach the observer to the cell
         }
     }
+}
+
+Cell* Board::getCell(int row, int col) {
+    return board[row][col].get();
 }
 
 char Board::charAt(int row, int col) const{

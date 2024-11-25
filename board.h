@@ -1,14 +1,17 @@
 #ifndef _BOARD_H_
 #define _BOARD_H_
-
+#include "subject.h"
 #include <iostream>
 #include <string>
 #include <vector>
-#include "player.h"
-#include "subject.h"
-#include "cell.h"
-#include "textobserver.h"
+
+
 using namespace std;
+
+class Player;
+class Cell;
+class TextObserver;
+
 
 class TextObserver;
 

@@ -1,4 +1,6 @@
 #include "cell.h"
+#include "link.h"
+#include "observer.h"
 #include <vector>
 #include <memory>
 #include <iostream>

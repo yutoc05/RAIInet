@@ -8,6 +8,7 @@
 #include "game.h"
 #include "player.h"
 #include "ability/ability.h"
+#include "textobserver.h"
 //#include "graphicsdisplay.h"
 
 using namespace std;
