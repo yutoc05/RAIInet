@@ -1,15 +1,17 @@
-#ifndef CELL_H
-#define CELL_H
-#include "link.h"
-#include "observer.h"
+#ifndef __CELL_H__
+#define __CELL_H__
+
 #include <vector>
+#include <string> // Include string explicitly
 #include <memory>
+#include "observer.h"
+#include "link.h"
 
 using namespace std;
 
 
 class Cell {
-    const int row, col;
+    int row, col;
     char state;
     const bool server;
     unique_ptr<Link> link;
@@ -17,8 +19,9 @@ class Cell {
     bool player1Firewall, player2Firewall, player1Trap, player2Trap, player1Blackhole, player2Blackhole;
     public:
     Cell(int row, int col, bool server);
+    void setCoords(int r, int c);
     void setState(char state);
-    char getState();
+    char getState() const;
     void addLink(unique_ptr<Link> link);
     unique_ptr<Link> detachLink();
     bool hasLink();

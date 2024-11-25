@@ -1,5 +1,4 @@
 #include "cell.h"
-#include "link.h"
 #include <vector>
 #include <memory>
 #include <iostream>
@@ -13,11 +12,16 @@ Cell::Cell(int row, int col, bool server): row{row}, col{col},
     }
 }
 
+void Cell::setCoords(int r, int c) {
+    r = row;
+    c = col;
+}
+
 void Cell::setState(char c) {
     state = c;
 }
 
-char Cell::getState() {
+char Cell::getState() const{
     return state;
 }
 

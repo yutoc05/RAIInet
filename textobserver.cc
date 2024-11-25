@@ -1,14 +1,17 @@
 #include "textobserver.h"
-#include "game.h"
 #include <iostream>
 #include <string>
 using namespace std;
 
-TextObserver::TextObserver(Game *game): game{game} {}
+TextObserver::TextObserver() {}
+
+void TextObserver::addGame(Game* g) {
+    game = g;
+}
 
 void TextObserver::notify() {
     cout << "Player 1:" << endl;
-    cout << game->playerInfo(1); << endl; // not sure if endl needed
+    // cout << playerInfo(1); << endl; // not sure if endl needed
     // cout << "Downloaded: " << /*game-> get # of data downloaded by p1*/ << "D, " << /*game-> get # of viruses downloaded by p1*/ << "V" << endl;
     // cout << "Abilities: " << /*game-> get # of player 1's abilities left to use*/ << endl;
 

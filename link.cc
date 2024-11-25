@@ -7,6 +7,9 @@ Link::Link(int posX, int posY, int strength, char symbol): posX{posX}, posY{posY
 symbol{symbol}, isRevealed{false}, isData{false}, isBoosted{false}, isDownloaded{false}, isDiagonal{false} {}
 //default all booleans to false
 
+
+Link::Link() : posX{-1}, posY{-1}, strength{0}, isData{true} {}
+
 char Link::getSymbol() {
     return symbol;
 }

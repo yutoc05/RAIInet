@@ -54,6 +54,8 @@ class Player {
                                                                 // direction. Updates link coords
         void useAbility(int i, Player& Opponent); // uses ability at index i
         void printAbilities(); //print the abilities avaliable
+        void removeLink(char id);
+        vector<Link> getOwns();
         friend std::ostream &operator << (std::ostream &out, const Player &p);
 };
 

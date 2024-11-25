@@ -1,5 +1,7 @@
-#ifndef LINK_H
-#define LINK_H
+#ifndef _LINK_H_
+#define _LINK_H_
+#include <iostream>
+#include <string>
 
 class Link {
     int posX, posY, strength;
@@ -7,6 +9,7 @@ class Link {
     bool isRevealed, isData, isBoosted, isDownloaded, isDiagonal;
     public:
     Link(int posX, int posY, int strength, char symbol);
+    Link();
     ~Link() = default;
     char getSymbol();
     void setSymbol(char c);

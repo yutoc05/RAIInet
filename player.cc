@@ -1,4 +1,8 @@
 #include "player.h"
+#include <vector>
+#include <map>
+#include <memory>
+using namespace std;
 
 // constructor
 Player::Player(Game* theGame): theGame{theGame}, numData{0}, numVirus{0} {
@@ -106,7 +110,7 @@ Link& Player::getPureLink(char id) {
 
 // add to numData or numVirus after download
 void Player::downloadLink(Link& currLink) {
-    if (currLink.checkIfData()){
+    if (currLink.getIsData()){
         numData ++;
     } else {
         numVirus ++;
@@ -172,10 +176,7 @@ void Player::moveLink(char id, char direction, bool isP1Turn) {
     Link *link = &links[id];
     // int posX = links[id].getPosX();
     // int posY = links[id].getPosY();
-    bool isBoosted = links[id].checkIfBoosted();
-    
-    int increment = 1;
-    if (isBoosted) increment = 2;
+    bool isBoosted = links[id].getIsBoosted();
 
     //check which direction the movement is and assume the positions are moved
     // switch (direction) {
@@ -184,11 +185,28 @@ void Player::moveLink(char id, char direction, bool isP1Turn) {
     //     case 'e': posX += increment;
     //     case 's': posY += increment;
     // }
-    if (direction == 'n') link->moveN(increment);
-    else if (direction == 'w') link->moveW(increment);
-    else if (direction == 'e') link->moveE(increment);
-    else if (direction == 's') link->moveS(increment);
-
+    
+    if (direction == 'n') {
+        if (isBoosted) {
+            link->moveU();
+        }
+        link->moveU();
+    } else if (direction == 'w') {
+        if (isBoosted) {
+            link->moveL();
+        }
+        link->moveL();
+    } else if (direction == 'e') {
+        if (isBoosted) {
+            link->moveR();
+        }
+        link->moveR();
+    }  else if (direction == 's') {
+        if (isBoosted) {
+            link->moveD();
+        }
+        link->moveD();
+    }
 
     //check illegal moves
     //check if onto own links
@@ -255,6 +273,25 @@ void Player::printAbilities() {
     cout << endl;
 }
 
+void Player::removeLink(char id) {
+    auto it = links.find(id);
+    if (it != links.end()) {
+        links.erase(it);
+    }
+
+    auto it2 = linkNames.find(id);
+    if (it2 != linkNames.end()) {
+        linkNames.erase(it2);
+    }
+}
+
+vector<Link> Player::getOwns() {
+    std::vector<Link> values;
+    for (const auto& pair : links) {
+        values.push_back(pair.second);
+    }
+    return values;
+}
 
 std::ostream &operator<<(std::ostream &out, const Player &p) {
     int count = 0;

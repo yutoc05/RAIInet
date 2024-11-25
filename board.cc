@@ -1,23 +1,23 @@
-#include "link.h"
-#include "cell.h"
 #include "board.h"
 #include <memory>
 #include <vector>
 #include <iostream>
 using namespace std;
 
-Board::Board(int width, int height) {
-    //resize board to have height rows
-    board.resize(height);
+Board::Board() {
+    // Initialize the board cells
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            board[i][j]->setCoords(i, j);
+        }
+    }
+}
 
-    for (int i = 0; i < height; ++i) {
-        //resize every row to have width cols
-        board[i].resize(width);
-        //allocate unique_ptr<Cell> for each cell
-        for (int j = 0; j < width; ++j) {
-            bool isServer = ((i == 0 && (j == 3 || j == 4)) || 
-                              (i == (height - 1) && (j == 3 || j == 4)));
-            board[i][j] = std::make_unique<Cell>(i, j, isServer);
+void Board::init(TextObserver* td) {
+    // Attach the TextDisplay observer to every Cell on theBoard
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            board[i][j]->attachObserver(td); // Attach the observer to the cell
         }
     }
 }
@@ -26,8 +26,17 @@ char Board::charAt(int row, int col) const{
     return board[row][col]->getState();
 }
 
-Cell* Board::getCell(int row, int col) {
-    return board[row][col].get(); //returns a raw ptr
+std::ostream& operator<<(std::ostream& out, const Board& b) {
+    // Implement the operator<< to display the board as needed
+    out << "========" << endl;
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            // Access the cell's state and display it
+            out << b.board[i][j]->getState();
+        }
+        out << std::endl; // Add a newline after each row
+    }
+    return out << "========" << endl;;
 }
 
 /*
