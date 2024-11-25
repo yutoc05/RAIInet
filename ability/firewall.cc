@@ -20,20 +20,20 @@ void Firewall::activate(Player& player, Player& opponent) {
             throw logic_error ("Coordinates are outside the board's dimensions.");
         }
 
-        Cell* selectedCell = player.getGame()->getBoard()->getCell(row, col);
+        Cell* selectedCell = player.getGame()->theBoard()->getCell(row, col);
         // Board& gameBoard = Board::getInstance();
         // Cell* selectedCell = gameBoard.getCell(row, col);
         if (selectedCell && selectedCell->getState() == '.') {
-            char firewallSymbol = player.getGame()->checkTurn() ? 'm' : 'w';
+            char firewallSymbol = player.getGame()->getTurn() == 1 ? 'm' : 'w';
             setUsed(true);
             selectedCell->setState(firewallSymbol); // This will notify TextDisplay to update
             cout << "Firewall " << firewallSymbol << " has been set at (" 
                 << col << ", " << row << ")" << endl;
-            cout << *player.getGame()->getBoard();
+            cout << *player.getGame()->theBoard();
 
             // define whose firewall it is for the cell
-            if (player.getGame()->checkTurn()) selectedCell->setPlayerOneFirewall();
-            else selectedCell->setPlayerTwoFirewall();
+            if (player.getGame()->getTurn() == 1) selectedCell->toggleFirewall(1);
+            else selectedCell->toggleFirewall(2);
             
             break;
 

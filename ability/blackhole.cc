@@ -19,7 +19,7 @@ void Blackhole::activate(Player& player, Player& opponent) {
             continue;
         }
 
-        Cell* selectedCell = player.getGame()->getBoard()->getCell(row, col);
+        Cell* selectedCell = player.getGame()->theBoard()->getCell(row, col);
         if (selectedCell && selectedCell->getState() == '.') {
             setUsed(true);
             selectedCell->setState(' '); // Invisible to the opponent

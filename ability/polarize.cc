@@ -33,7 +33,7 @@ void Polarize::activate(Player& player, Player& opponent) {
             throw logic_error {"This link id does not exist. Try again."};
         }
         // Check if it's a data link or a virus link 
-        else if (link.checkIfData()) {
+        else if (link.getIsData()) {
             link.setIsData(false);
             cout << "Link " << linkName << " has been polarized from a Data to a Virus link." << endl;
             break;  // Exit loop after successful polarization

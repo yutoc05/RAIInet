@@ -5,6 +5,7 @@
 #include <string>
 #include "ability.h"
 
+
 class MoveDiagonal : public Ability {
 public:
     MoveDiagonal();

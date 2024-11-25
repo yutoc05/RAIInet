@@ -6,10 +6,10 @@
 #include "../game.h"
 
 //create constructor
-StrengthBoost::ExtraStrength(): Ability("ExtraStrength", move(theGame)) {}
+ExtraStrength::ExtraStrength(): Ability("ExtraStrength", move(theGame)) {}
 
 //create destructor
-StrengthBoost::~ExtraStrength() {}
+ExtraStrength::~ExtraStrength() {}
 
 //create activate
 void ExtraStrength::activate(Player& player, Player& opponent ) { 
@@ -20,11 +20,11 @@ void ExtraStrength::activate(Player& player, Player& opponent ) {
         cin >> id;
 
         Link *l; // pointer to the link we strengthening
-        if (player.getGame()->checkTurn() && (id == 'a' || id == 'b' || id == 'c' || id == 'd' ||
+        if (player.getGame()->getTurn() == 1 && (id == 'a' || id == 'b' || id == 'c' || id == 'd' ||
                 id == 'e' || id == 'f' || id == 'g' || id == 'h')) {
             l = &player.getPureLink(id);
         }
-        else if (!player.getGame()->checkTurn() && (id == 'A' || id == 'B' || id == 'C' || 
+        else if (player.getGame()->getTurn() == 2 && (id == 'A' || id == 'B' || id == 'C' || 
             id == 'D' || id == 'E' || id == 'F' || id == 'G' || id == 'H')) {
             l = &player.getPureLink(id);
         }

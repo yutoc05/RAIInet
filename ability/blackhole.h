@@ -5,6 +5,7 @@
 #include <string>
 #include "ability.h"
 
+
 class Blackhole : public Ability {
 public:
     Blackhole();

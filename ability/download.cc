@@ -25,13 +25,13 @@ void Download::activate(Player& player, Player& opponent ) {
         Link& link = opponent.getLink(id);
 
         // Check if it has already been downloaded
-        if (link.checkIfDownloaded()) {
+        if (link.getIsDownloaded()) {
             cout << "Link " << id << " has already been downloaded. Please re-enter the link name: ";
         } 
-        else if ((player.getGame()->checkTurn() && (id == 'a' || id == 'b' || id == 'c' || 
+        else if ((player.getGame()->getTurn() == 1 && (id == 'a' || id == 'b' || id == 'c' || 
                                                         id == 'd' || id == 'e' || id == 'f' || 
                                                         id == 'g' || id == 'h')) ||
-                (!player.getGame()->checkTurn() && (id == 'A' || id == 'B' || id == 'C' || 
+                (player.getGame()->getTurn() == 2 && (id == 'A' || id == 'B' || id == 'C' || 
                                                         id == 'D' || id == 'E' || id == 'F' || 
                                                         id == 'G' || id == 'H'))) {
             throw logic_error {"You must download your opponent's link, not your own. Try again."};
@@ -43,14 +43,14 @@ void Download::activate(Player& player, Player& opponent ) {
             player.downloadLink(link);
             
             char replacement; // get replacement for the hole left by the downloaded link
-            if (player.getGame()->getBoard()->theBoard[link.getPosY()][link.getPosX()].
-                isPlayerOneFirewall()) replacement = 'm';
-            else if (player.getGame()->getBoard()->theBoard[link.getPosY()][link.getPosX()].
-                isPlayerTwoFirewall()) replacement = 'w';
+            if (player.getGame()->theBoard()->getCell(link.getPosY(), link.getPosX())->
+                isFirewall(1)) replacement = 'm';
+            else if (player.getGame()->theBoard()->getCell(link.getPosY(), link.getPosX())->
+                isFirewall(2)) replacement = 'w';
             else replacement = '.';
 
-            player.getGame()->getBoard()->theBoard[link.getPosY()][link.getPosX()]
-                .setState(replacement);
+            player.getGame()->theBoard()->getCell(link.getPosY(), link.getPosX())->
+                setState(replacement);
             cout << "Link " << id << " has been downloaded." << endl;
             break; // Exit the loop since we found the link
         }

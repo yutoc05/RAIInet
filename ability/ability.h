@@ -42,8 +42,6 @@ class Ability {
         int getType() const;                 // returns the id of the ability
         bool checkUsed() const;            // returns whether the ability has been used
         string getAbility() const;           // returns the ability name
-        
-        
 };
 
 #endif
