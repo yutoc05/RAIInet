@@ -8,7 +8,7 @@
 
 class MoveDiagonal : public Ability {
 public:
-    MoveDiagonal();
+    MoveDiagonal(Game*& theGame);
     ~MoveDiagonal();
     void activate(Player& player, Player& opponent) override; // Activates the ability
 };

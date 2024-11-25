@@ -10,7 +10,7 @@ class ExtraStrength : public Ability {
     // put private fields/methods here if needed
     
     public:
-    ExtraStrength();
+    ExtraStrength(Game*& theGame);
     ~ExtraStrength();
     void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };

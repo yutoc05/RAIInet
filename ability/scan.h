@@ -12,7 +12,7 @@ class Scan : public Ability {
     // Board& getGameBoard(); 
     
     public:
-    Scan();
+    Scan(Game*& theGame);
     ~Scan();
     void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };

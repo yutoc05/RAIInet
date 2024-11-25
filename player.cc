@@ -2,11 +2,12 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <iostream>
 using namespace std;
 
 // constructor
 Player::Player(Game* theGame): theGame{theGame}, numData{0}, numVirus{0} {
-    // initialize links and abilities and firewallls?
+    // initialize links and abilities and firewalls?
 }
 
 // destructor
@@ -124,14 +125,14 @@ void Player::addAbility(char ability) {
         if (!abilities[i]) {
             addCount = 1;
             switch (ability) {
-                case 'L': abilities[i] = make_unique<LinkBoost>(); break;
-                case 'F': abilities[i] = make_unique<Firewall>(); break;
-                case 'D': abilities[i] = make_unique<Download>(); break;
-                case 'S': abilities[i] = make_unique<Scan>(); break;
-                case 'P': abilities[i] = make_unique<Polarize>(); break;
-                case 'M': abilities[i] = make_unique<MoveDiagonal>(); break;
-                case 'B': abilities[i] = make_unique<Blackhole>(); break;
-                case 'E': abilities[i] = make_unique<ExtraStrength>(); break;
+                case 'L': abilities[i] = make_unique<LinkBoost>(theGame); break;
+                case 'F': abilities[i] = make_unique<Firewall>(theGame); break;
+                case 'D': abilities[i] = make_unique<Download>(theGame); break;
+                case 'S': abilities[i] = make_unique<Scan>(theGame); break;
+                case 'P': abilities[i] = make_unique<Polarize>(theGame); break;
+                case 'M': abilities[i] = make_unique<MoveDiagonal>(theGame); break;
+                case 'B': abilities[i] = make_unique<Blackhole>(theGame); break;
+                case 'E': abilities[i] = make_unique<ExtraStrength>(theGame); break;
             }
             break;
         }
@@ -152,7 +153,7 @@ void Player::addLink(char id, string link) {
     bool isData = true;
     if (cIsData == 'V') isData = false;
 
-    if(std::isupper(id)){
+    if(std::isupper(id)) {
         int posY = 7;
         int posX = id - 'A';
         if (id == 'D' || id == 'E') posY -= 1;

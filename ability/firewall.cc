@@ -4,7 +4,7 @@
 #include "../player.h"
 #include "../game.h"
 
-Firewall::Firewall(): Ability("Firewall", move(theGame)) {}
+Firewall::Firewall(Game*& theGame): Ability("Firewall", theGame) {}
 
 Firewall::~Firewall() {
 }

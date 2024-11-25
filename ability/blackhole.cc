@@ -3,7 +3,7 @@
 #include "../player.h"
 #include "../game.h"
 
-Blackhole::Blackhole() : Ability("Blackhole", move(theGame)) {}
+Blackhole::Blackhole(Game*& theGame) : Ability("Blackhole", theGame) {}
 
 Blackhole::~Blackhole() {}
 

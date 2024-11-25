@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-Scan::Scan() : Ability("Scan", move(theGame)) {
+Scan::Scan(Game*& theGame) : Ability("Scan", theGame) {
     // Constructor for Scan
 }
 

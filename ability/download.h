@@ -14,7 +14,7 @@ class Download : public Ability {
     // put private fields/methods here if needed
     
     public:
-    Download();
+    Download(Game*& theGame);
     ~Download();
     void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };

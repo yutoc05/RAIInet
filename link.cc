@@ -3,8 +3,8 @@
 #include <iostream>
 using namespace std;
 
-Link::Link(int posX, int posY, int strength, char symbol): posX{posX}, posY{posY}, strength{strength},
-symbol{symbol}, isRevealed{false}, isData{false}, isBoosted{false}, isDownloaded{false}, isDiagonal{false} {}
+Link::Link(int posX, int posY, int strength, bool isData): posX{posX}, posY{posY}, strength{strength}
+        , isData{isData} {}
 //default all booleans to false
 
 

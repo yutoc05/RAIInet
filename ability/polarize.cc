@@ -9,7 +9,7 @@ using namespace std;
 
 class Player;
 
-Polarize::Polarize() : Ability("Polarize", move(theGame)) {
+Polarize::Polarize(Game*& theGame) : Ability("Polarize", theGame) {
       // Constructor for Polarize
 }
 

@@ -16,12 +16,17 @@ using namespace std;
 int main(int argc, char* argv[]) {
     unique_ptr<Game> gp = make_unique<Game> ();
     unique_ptr<Player> p1 = make_unique<Player>(gp.get());
+    //gp->initPlayerOne(move(p1));
     unique_ptr<Player> p2 = make_unique<Player>(gp.get());
+    //gp->initPlayerTwo(move(p2));
     gp->getTextObserver()->addGame(gp.get());
+    
     std::cout << "Welcome to RAIInet!" << endl;
     // setup
     bool linksSpecifiedOne = false;
     bool linksSpecifiedTwo = false;
+
+    
     
     for (int i = 1; i < argc; ++i) {
         string command = argv[i];

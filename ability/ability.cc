@@ -6,7 +6,7 @@
 using namespace std;
 
 //create constructor
-Ability::Ability (const string& name, unique_ptr<Game> theGame) : type{-1}, isUsed{false}, theGame{theGame.get()} {
+Ability::Ability (const string& name, Game*& theGame) : type{-1}, isUsed{false}, theGame{theGame} {
     abilityName = name;
 }
 //destructor is pure virtual

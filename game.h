@@ -13,7 +13,7 @@ class Player;
 
 class Game {
     unique_ptr<Board> b;
-    unique_ptr<Player> player1;;
+    unique_ptr<Player> player1;
     unique_ptr<Player> player2;
     unique_ptr<TextObserver> td = make_unique<TextObserver>();
     //unique_ptr<GraphicsDisplay> gd;

@@ -33,9 +33,9 @@ class Ability {
     string abilityName;  
     protected:
         void setUsed(bool value);
-        unique_ptr<Game> theGame;
+        Game* theGame;
     public:
-        Ability(const string& name, unique_ptr<Game> theGame); // ctor, might need fields for initialization
+        Ability(const string& name, Game*& theGame); // ctor, might need fields for initialization
         //virtual ~Ability() = 0;
         ~Ability();
         virtual void activate(Player& player, Player& opponent) = 0; // pure virtual function

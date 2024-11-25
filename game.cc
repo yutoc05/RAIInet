@@ -9,8 +9,12 @@
 #include <utility>
 using namespace std;
 
-Game::Game() : player1{nullptr}, player2{nullptr}, td{new TextObserver{}} //gd{nullptr} 
-        {}
+Game::Game() 
+    : b{std::make_unique<Board>()}, player1{nullptr}, player2{nullptr}, td{std::make_unique<TextObserver>()}, 
+       showGraphic{false}, turn{1} {
+    // Board (b) is initialized with a unique_ptr
+}
+
 
 Game::~Game() {}
 
@@ -32,9 +36,8 @@ void Game::initPlayerOne(unique_ptr<Player> p1) { player1 = std::move(p1); }
 
 void Game::initPlayerTwo(unique_ptr<Player> p2) { player2 = std::move(p2); }
 
-void Game::init()
-{
-    b->init(td.get());
+void Game::init() {
+    b->attach(move(td));
     // server ports
     b->getCell(0, 3)->setState('S');
     b->getCell(0, 4)->setState('S');
@@ -201,6 +204,7 @@ void Game::moveLink(char id, char dir) {
     } else { // lands on an empty cell: '.'
         b->getCell(posX, posY)->setState(id);
     }
+    b->notifyObservers();
 }
 
 void Game::useAbility(int i) {
@@ -242,9 +246,69 @@ Board* Game::theBoard() {
 }
 
 std::ostream &operator<<(std::ostream &out, const Game &g) {
-    cout << "test";
+    //not right
     return out;
 }
+
+
+string Game::playerInfo(int player) {
+    Player *curPlayer;
+    if (turn == 1) {
+        curPlayer = player1.get();
+    } else {
+        curPlayer = player2.get();
+    }
+
+    stringstream ss;
+    ss << "Downloaded: ";
+    
+
+    if (player == 1) {
+        ss << curPlayer->getNumData() << "D,  " << curPlayer->getNumVirus() << "V" << endl;
+        int counter = 0;
+        for (int i = 0; i < (int)curPlayer->getOwns().size(); ++i) {
+            ss << curPlayer->getOwns()[i].getSymbol() << ": ";
+            if (turn == 1) {
+                //Data or virus?
+                curPlayer->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
+                ss << curPlayer->getOwns()[i].getStrength() << " ";
+            } else if (curPlayer->getOwns()[i].getIsRevealed()) { //turn 2 & revealed
+                curPlayer->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
+                ss << curPlayer->getOwns()[i].getStrength() << " ";
+            } else { //turn 2 & not revealed
+                ss << "? ";
+            }
+            counter++;
+            if (counter >= 4) {
+                counter = 0;
+                ss << endl;
+            }
+        }
+    } else if (player == 2) {
+        ss << player2->getNumData() << "D,  " << player2->getNumVirus() << "V" << endl;
+        int counter = 0;
+        for (int i = 0; i < (int)player2->getOwns().size(); ++i) {
+            ss << player2->getOwns()[i].getSymbol() << ": ";
+            if (turn == 2) {
+                //Data or virus?
+                player2->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
+                ss << player2->getOwns()[i].getStrength() << " ";
+            } else if (player2->getOwns()[i].getIsRevealed()) { //turn 1 & revealed
+                player2->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
+                ss << player2->getOwns()[i].getStrength() << " ";
+            } else { //turn 1 & not revealed
+                ss << "? ";
+            }
+            counter++;
+            if (counter >= 4) {
+                counter = 0;
+                ss << endl;
+            }
+        }
+    }
+    return ss.str();
+}
+
 
 /*
 std::ostream &operator<<(std::ostream &out, const Game &g) {
@@ -319,69 +383,4 @@ void Game::enableGraphics() {
 bool Game::isGraphicsEnabled() {
     return showGraphic;
 }
-*/
-
-string Game::playerInfo(int player) {
-    return "playerInfo needs to be changed";
-}
-
-/*
-string Game::playerInfo(int player) {
-    Player *curPlayer;
-    if (turn == 1) {
-        curPlayer = player1.get();
-    } else {
-        curPlayer = player2.get();
-    }
-
-    stringstream ss;
-    ss << "Downloaded: ";
-    
-
-    if (player == 1) {
-        ss << curPlayer->getNumData() << "D,  " << curPlayer->getNumVirus() << "V" << endl;
-        int counter = 0;
-        for (int i = 0; i < (int)curPlayer->getOwns().size(); ++i) {
-            ss << curPlayer->getOwns()[i].getSymbol() << ": ";
-            if (turn == 1) {
-                //Data or virus?
-                curPlayer->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
-                ss << curPlayer->getOwns()[i].getStrength() << " ";
-            } else if (curPlayer->getOwns()[i].getIsRevealed()) { //turn 2 & revealed
-                curPlayer->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
-                ss << curPlayer->getOwns()[i].getStrength() << " ";
-            } else { //turn 2 & not revealed
-                ss << "? ";
-            }
-            counter++;
-            if (counter >= 4) {
-                counter = 0;
-                ss << endl;
-            }
-        }
-    } else if (player == 2) {
-        ss << player2->getNumData() << "D,  " << player2->getNumVirus() << "V" << endl;
-        int counter = 0;
-        for (int i = 0; i < (int)player2->getOwns().size(); ++i) {
-            ss << player2->getOwns()[i].getSymbol() << ": ";
-            if (turn == 2) {
-                //Data or virus?
-                player2->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
-                ss << player2->getOwns()[i].getStrength() << " ";
-            } else if (player2->getOwns()[i].getIsRevealed()) { //turn 1 & revealed
-                player2->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
-                ss << player2->getOwns()[i].getStrength() << " ";
-            } else { //turn 1 & not revealed
-                ss << "? ";
-            }
-            counter++;
-            if (counter >= 4) {
-                counter = 0;
-                ss << endl;
-            }
-        }
-    }
-    return ss.str();
-}
-
 */

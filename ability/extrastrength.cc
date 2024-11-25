@@ -6,7 +6,7 @@
 #include "../game.h"
 
 //create constructor
-ExtraStrength::ExtraStrength(): Ability("ExtraStrength", move(theGame)) {}
+ExtraStrength::ExtraStrength(Game*& theGame): Ability("ExtraStrength", theGame) {}
 
 //create destructor
 ExtraStrength::~ExtraStrength() {}

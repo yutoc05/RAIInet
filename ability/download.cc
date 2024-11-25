@@ -8,7 +8,7 @@
 using namespace std;
 
  // Constructor for download
-Download::Download() : Ability("Download", move(theGame)) {}
+Download::Download(Game*& theGame) : Ability("Download", theGame) {}
 
 //create destructor
 Download::~Download() {}

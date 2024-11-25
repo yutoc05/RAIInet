@@ -7,12 +7,16 @@
 
 using namespace std;
 
+Cell::Cell(): row{-1}, col{-1}, state{'.'} {}
+
+/*
 Cell::Cell(int row, int col, bool server): row{row}, col{col}, 
         state{'.'}, server{server} {
     if (server) {
         state = 'S';
     }
 }
+*/
 
 void Cell::setCoords(int r, int c) {
     r = row;
@@ -50,7 +54,7 @@ Link* Cell::getLink() {
 }
 
 bool Cell::isServer() const{
-    return server;
+    return (state == 'S');
 }
 
 void Cell::toggleFirewall(int player) {
@@ -95,6 +99,7 @@ bool Cell::isBlackhole(int player) const{
     }
 }
 
+/*
 void Cell::attachObserver(Observer *o) {
     observers.push_back(o);
 }
@@ -105,7 +110,7 @@ void Cell::notifyObservers() {
         o->notify();
     }
 }
-
+*/
 
 /* Tested works as expected - RT Nov. 21
 int main() {

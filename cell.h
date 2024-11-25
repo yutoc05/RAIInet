@@ -14,12 +14,12 @@ class Observer;
 class Cell {
     int row, col;
     char state;
-    const bool server;
     unique_ptr<Link> link;
-    vector<Observer*> observers;
+    //vector<Observer*> observers;
     bool player1Firewall, player2Firewall, player1Trap, player2Trap, player1Blackhole, player2Blackhole;
     public:
-    Cell(int row, int col, bool server);
+    Cell();
+    //Cell(int row, int col, bool server);
     void setCoords(int r, int c);
     void setState(char state);
     char getState() const;
@@ -32,8 +32,8 @@ class Cell {
     bool isFirewall(int player) const;
     void toggleBlackhole(int player);
     bool isBlackhole(int player) const;
-    void attachObserver(Observer* o);
-    void notifyObservers();
+    //void attachObserver(Observer* o);
+    //void notifyObservers();
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include "../player.h"
 #include "../link.h"
 
-MoveDiagonal::MoveDiagonal() : Ability("Move Diagonal", move(theGame)) {}
+MoveDiagonal::MoveDiagonal(Game*& theGame) : Ability("Move Diagonal", theGame) {}
 
 MoveDiagonal::~MoveDiagonal() {}
 

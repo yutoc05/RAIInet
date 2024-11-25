@@ -12,26 +12,28 @@ Board::Board() {
     // Initialize the board cells
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
-            board[i][j]->setCoords(i, j);
+            theBoard[i][j].setCoords(i, j);
         }
     }
 }
 
+/*
 void Board::init(TextObserver* td) {
     // Attach the TextDisplay observer to every Cell on theBoard
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
-            board[i][j]->attachObserver(td); // Attach the observer to the cell
+            theBoard[i][j].attachObserver(td); // Attach the observer to the cell
         }
     }
 }
+*/
 
 Cell* Board::getCell(int row, int col) {
-    return board[row][col].get();
+    return &theBoard[row][col];
 }
 
 char Board::charAt(int row, int col) const{
-    return board[row][col]->getState();
+    return theBoard[row][col].getState();
 }
 
 std::ostream& operator<<(std::ostream& out, const Board& b) {
@@ -40,7 +42,7 @@ std::ostream& operator<<(std::ostream& out, const Board& b) {
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             // Access the cell's state and display it
-            out << b.board[i][j]->getState();
+            out << b.theBoard[i][j].getState();
         }
         out << std::endl; // Add a newline after each row
     }

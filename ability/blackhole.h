@@ -8,7 +8,7 @@
 
 class Blackhole : public Ability {
 public:
-    Blackhole();
+    Blackhole(Game*& theGame);
     ~Blackhole();
     void activate(Player& player, Player& opponent) override; // Activates the ability
 };

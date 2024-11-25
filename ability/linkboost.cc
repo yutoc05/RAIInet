@@ -7,7 +7,7 @@
 
 
  // Constructor for download
-LinkBoost::LinkBoost() : Ability("LinkBoost", move(theGame)) {
+LinkBoost::LinkBoost(Game*& theGame) : Ability("LinkBoost", theGame) {
 }
 
 //create destructor

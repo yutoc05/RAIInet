@@ -12,7 +12,7 @@ class Firewall : public Ability {
     //Game& game;
     
     public:
-    Firewall();
+    Firewall(Game*& theGame);
     ~Firewall();
     void activate(Player& player, Player& opponent ) override; // reads input and activates ability
 };

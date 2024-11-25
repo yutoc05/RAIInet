@@ -8,7 +8,7 @@ class Link {
     char symbol;
     bool isRevealed, isData, isBoosted, isDownloaded, isDiagonal;
     public:
-    Link(int posX, int posY, int strength, char symbol);
+    Link(int posX, int posY, int strength, bool isData);
     Link();
     ~Link() = default;
     char getSymbol();
