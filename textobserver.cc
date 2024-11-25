@@ -19,6 +19,7 @@ void TextObserver::notify() {
     // must print ? if link is hidden and player 2's turn
     // cout << "a: " << /*game-> link(D or V)+strength*/ << " b: " << /*game-> link(D or V)+strength*/ << " c: " << /*game-> link(D or V)+strength*/ << " d: " << /*game-> link(D or V)+strength*/ << endl;
     // cout << "e: " << /*game-> link(D or V)+strength*/ << " f: " << /*game-> link(D or V)+strength*/ << " g: " << /*game-> link(D or V)+strength*/ << " h: " << /*game-> link(D or V)+strength*/ << endl;
+    cout << game->playerInfo(1);
     cout << "========" << endl;
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
@@ -31,7 +32,7 @@ void TextObserver::notify() {
         cout << endl;
     }
     cout << "========" << endl;
-    cout << game->playerInfo(2) << endl; // not sure if endl needed
+    cout << game->playerInfo(2);
     // cout << "Player 2:" << endl;
     // cout << "Downloaded: " << /*game-> get # of data downloaded by p2*/ << "D, " << /*game-> get # of viruses downloaded by p2*/ << "V" << endl;
     // cout << "Abilities: " << /*game-> get # of player 2's abilities left to use*/ << endl;
