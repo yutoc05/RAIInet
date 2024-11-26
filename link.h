@@ -19,7 +19,7 @@ class Link {
     void setPosY(int y);
     int getStrength();
     void setStrength(int s);
-    bool getIsRevealed();
+    bool getIsRevealed() const;
     bool getIsData();
     bool getIsBoosted();
     bool getIsDownloaded();

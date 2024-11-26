@@ -25,8 +25,6 @@ int main(int argc, char* argv[]) {
     // setup
     bool linksSpecifiedOne = false;
     bool linksSpecifiedTwo = false;
-
-    
     
     for (int i = 1; i < argc; ++i) {
         string command = argv[i];
@@ -149,10 +147,11 @@ int main(int argc, char* argv[]) {
                 }
 
                 gp->toggleTurn();
-                std::cout << *gp;
+                //std::cout << *gp;
                 
                 usedAbility = false;
                     // print whose turn
+                    std::cout << endl;
                 if (gp->getTurn() == 1) std::cout << "Player 1's turn." << endl;
                 else std::cout << "Player 2's turn." << endl;
             }
@@ -209,8 +208,11 @@ int main(int argc, char* argv[]) {
                         
                         usedAbility = false;
                             // print whose turn
-                        if (gp->getTurn() == 1) std::cout << "Player 1's turn." << endl;
-                        else std::cout << "Player 2's turn." << endl;
+                        if (gp->getTurn() == 1) {
+                            std::cout << "Player 1's turn." << endl;
+                        } else {
+                            std::cout << "Player 2's turn." << endl;
+                        }
                     }
 
                     else if (command == "abilities") {
@@ -228,7 +230,7 @@ int main(int argc, char* argv[]) {
                     }
 
                     else if (command == "board") {
-                        std::cout << *gp;
+                        std::cout << *gp->theBoard();
                     }
 
                     // TODO:

@@ -87,24 +87,24 @@ void Game::moveLink(char id, char dir) {
     if (dir == 's') oppDir = 'n';
     if (dir == 'w') oppDir = 'e';
 
-    // change old cell
-    // if was on firewall:
-    if (b->getCell(posX, posY)->isFirewall(1)) {
-        b->getCell(posX, posY)->setState('m');
-    } else if (b->getCell(posX, posY)->isFirewall(1)) {
-        b->getCell(posX, posY)->setState('w');
-    } else  { //if normal cell
-        b->getCell(posX, posY)->setState('.');
-    }
-
     // moving
     curPlayer->moveLink(id, dir, turn);
+
+    // change old cell
+    // if was on firewall:
+    if (b->getCell(posY, posX)->isFirewall(1)) {
+        b->getCell(posY, posX)->setState('m');
+    } else if (b->getCell(posY, posX)->isFirewall(1)) {
+        b->getCell(posY, posX)->setState('w');
+    } else  { //if normal cell
+        b->getCell(posY, posX)->setState('.');
+    }
 
     //  new position
     posX = curPlayer->getPureLink(id).getPosX();
     posY = curPlayer->getPureLink(id).getPosY();
 
-    // cout << posX << posY;
+    //cout << posX << posY;
 
     // if lands on Server port / download edge
     if (turn == 1) { // p1's turn
@@ -118,15 +118,14 @@ void Game::moveLink(char id, char dir) {
             curPlayer->moveLink(id, oppDir, turn);
             posX = curPlayer->getPureLink(id).getPosX();
             posY = curPlayer->getPureLink(id).getPosY();
-            b->getCell(posX, posY)->setState(id);
+            b->getCell(posY, posX)->setState(id);
             throw logic_error {"You can't move your link onto your own Server Port. Try again."};
         }
-        else if (posX > 7 || posY > 7 || posX < 0 || posY < 0)
-        { // off the map!!?
+        else if (posX > 7 || posY > 7 || posX < 0 || posY < 0) { // off the map!!?
             curPlayer->moveLink(id, oppDir, turn);
             posX = curPlayer->getPureLink(id).getPosX();
             posY = curPlayer->getPureLink(id).getPosY();
-            b->getCell(posX, posY)->setState(id);
+            b->getCell(posY, posX)->setState(id);
             throw logic_error {"You can't move your link off the board. Try again."};
         }
     }
@@ -186,7 +185,7 @@ void Game::moveLink(char id, char dir) {
             curPlayer->moveLink(id, oppDir, turn);
             posX = curPlayer->getPureLink(id).getPosX();
             posY = curPlayer->getPureLink(id).getPosY();
-            b->getCell(posX, posY)->setState(id);
+            b->getCell(posY, posX)->setState(id);
             throw logic_error {"Don't attack your own link! Try again."};
         }
         // at this point, it should be certain that the cell's state is the other player's link
@@ -197,13 +196,15 @@ void Game::moveLink(char id, char dir) {
 
         if (curLinkLevel >= oppLinkLevel) { // if curPlayer wins
             curPlayer->downloadLink(curOpponent->getPureLink(b->getCell(posY, posX)->getState()));
-            b->getCell(posX, posY)->setState(id);
+            b->getCell(posY, posX)->setState(id);
         } else { // if curOpponent wins
             curOpponent->downloadLink(curPlayer->getPureLink(id));
         }
     } else { // lands on an empty cell: '.'
-        b->getCell(posX, posY)->setState(id);
+        b->getCell(posY, posX)->setState(id);
     }
+
+    
     b->notifyObservers();
 }
 
@@ -245,70 +246,87 @@ Board* Game::theBoard() {
     return b.get();
 }
 
+
 std::ostream &operator<<(std::ostream &out, const Game &g) {
-    //not right
+    out << "Player 1:" << endl;
+    out << "Downloaded: " << g.player1->getNumData() << "D,  " << g.player1->getNumVirus() << "V" << endl;
+    out << "Abilities: " << g.player1->getNumAbilities() << endl;
+    if (g.turn == 1) {
+        out << *g.player1 << endl;
+    } else {
+        int count = 0;
+        for (const auto& [id, name] : g.player2->getLinkNames()) {
+            count++;
+            const Link& link = g.player2->getLink(id); // Retrieve the link object
+            out << id << ": ";
+            if (link.getIsRevealed()) {
+                out << name << " ";
+            } else {
+                out << "?  ";
+            }
+            if (count == 4) {
+                out << endl;
+                count = 0;
+            }
+        }
+        //if (count != 0) out << endl;
+    }
+    out << *g.b;
+    out << "Player 2:" << endl;
+    out << "Downloaded: " << g.player2->getNumData() << "D,  " << g.player2->getNumVirus() << "V" << endl;
+    out << "Abilities: " << g.player2->getNumAbilities() << endl;
+    if (g.turn == 2) {
+        out << *g.player2;
+    } else {
+        int count = 0;
+        for (const auto& [id, name] : g.player2->getLinkNames()) {
+            count++;
+            const Link& link = g.player2->getLink(id); // Retrieve the link object
+            out << id << ": ";
+            if (link.getIsRevealed()) {
+                out << name << " ";
+            } else {
+                out << "?  ";
+            }
+            if (count == 4) {
+                out << endl;
+                count = 0;
+            }
+        }
+        //if (count != 0) out << endl;
+    }
     return out;
 }
 
 
+/*
 string Game::playerInfo(int player) {
+    
     Player *curPlayer;
+    Player* opponent;
     if (turn == 1) {
         curPlayer = player1.get();
+        opponent = player2.get();
     } else {
         curPlayer = player2.get();
+        opponent = player1.get();
     }
 
-    stringstream ss;
+    
     ss << "Downloaded: ";
     
 
+    stringstream ss;
+    
+
     if (player == 1) {
-        ss << curPlayer->getNumData() << "D,  " << curPlayer->getNumVirus() << "V" << endl;
-        int counter = 0;
-        for (int i = 0; i < (int)curPlayer->getOwns().size(); ++i) {
-            ss << curPlayer->getOwns()[i].getSymbol() << ": ";
-            if (turn == 1) {
-                //Data or virus?
-                curPlayer->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
-                ss << curPlayer->getOwns()[i].getStrength() << " ";
-            } else if (curPlayer->getOwns()[i].getIsRevealed()) { //turn 2 & revealed
-                curPlayer->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
-                ss << curPlayer->getOwns()[i].getStrength() << " ";
-            } else { //turn 2 & not revealed
-                ss << "? ";
-            }
-            counter++;
-            if (counter >= 4) {
-                counter = 0;
-                ss << endl;
-            }
-        }
+       ss << *player1;
     } else if (player == 2) {
-        ss << player2->getNumData() << "D,  " << player2->getNumVirus() << "V" << endl;
-        int counter = 0;
-        for (int i = 0; i < (int)player2->getOwns().size(); ++i) {
-            ss << player2->getOwns()[i].getSymbol() << ": ";
-            if (turn == 2) {
-                //Data or virus?
-                player2->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
-                ss << player2->getOwns()[i].getStrength() << " ";
-            } else if (player2->getOwns()[i].getIsRevealed()) { //turn 1 & revealed
-                player2->getOwns()[i].getIsData() ? ss << "D" : ss << "V";
-                ss << player2->getOwns()[i].getStrength() << " ";
-            } else { //turn 1 & not revealed
-                ss << "? ";
-            }
-            counter++;
-            if (counter >= 4) {
-                counter = 0;
-                ss << endl;
-            }
-        }
+        ss << *player1;
     }
     return ss.str();
 }
-
+*/
 
 /*
 std::ostream &operator<<(std::ostream &out, const Game &g) {
@@ -373,8 +391,8 @@ std::ostream &operator<<(std::ostream &out, const Game &g) {
     }
     return out << endl << endl;
 }
-*/
 
+*/
 /*
 void Game::enableGraphics() {
     showGraphic = true;

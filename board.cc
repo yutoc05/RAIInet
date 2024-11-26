@@ -36,6 +36,7 @@ char Board::charAt(int row, int col) const{
     return theBoard[row][col].getState();
 }
 
+
 std::ostream& operator<<(std::ostream& out, const Board& b) {
     // Implement the operator<< to display the board as needed
     out << "========" << endl;

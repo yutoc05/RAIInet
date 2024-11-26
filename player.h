@@ -56,6 +56,7 @@ class Player {
         void printAbilities(); //print the abilities avaliable
         void removeLink(char id);
         vector<Link> getOwns();
+        const map<char, string>& getLinkNames() const;
         friend std::ostream &operator << (std::ostream &out, const Player &p);
 };
 

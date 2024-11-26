@@ -30,7 +30,7 @@ int Link::getStrength() {return strength;}
 
 void Link::setStrength(int s) {strength = s;}
 
-bool Link::getIsRevealed() {return isRevealed;}
+bool Link::getIsRevealed() const{return isRevealed;}
 
 bool Link::getIsData() {return isData;}
 

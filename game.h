@@ -37,7 +37,7 @@ class Game {
     TextObserver* getTextObserver();
     Board* theBoard();
     string playerInfo(int player);
-    friend std::ostream &operator << (std::ostream &out, const Game &g);
+    friend std::ostream &operator<<(std::ostream &out, const Game &g);
 };
 
 #endif

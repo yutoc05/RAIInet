@@ -294,6 +294,10 @@ vector<Link> Player::getOwns() {
     return values;
 }
 
+const map<char, string>& Player::getLinkNames() const {
+    return linkNames;
+}
+
 std::ostream &operator<<(std::ostream &out, const Player &p) {
     int count = 0;
     for (auto& p : p.linkNames){
