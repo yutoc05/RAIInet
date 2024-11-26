@@ -114,7 +114,7 @@ void Player::downloadLink(Link& currLink) {
     if (currLink.getIsData()){
         numData ++;
     } else {
-        numVirus ++;
+        numVirus++;
     }
 }
 

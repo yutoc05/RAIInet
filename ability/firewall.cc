@@ -3,6 +3,7 @@
 #include "../board.h"
 #include "../player.h"
 #include "../game.h"
+#include <iostream>
 
 Firewall::Firewall(Game*& theGame): Ability("Firewall", theGame) {}
 
@@ -13,38 +14,46 @@ void Firewall::activate(Player& player, Player& opponent) {
     int row, col;
 
     while (true) {
-        cin >> row;
-        cin >> col;
+        cout << "Enter coordinates (row col): ";
+        cin >> row >> col;
+
+        // Check if input is valid (within the board's range)
+        if (cin.fail()) {
+            cin.clear();  // clear the error flag
+            cin.ignore(9999, '\n');  // discard the invalid input
+            cerr << "Invalid input. Please enter numeric values for row and column.\n";
+            continue;
+        }
 
         if (row < 0 || row >= 8 || col < 0 || col >= 8) {
-            throw logic_error ("Coordinates are outside the board's dimensions.");
+            cerr << "Coordinates are outside the board's dimensions. Try again.\n";
+            continue;
         }
 
+        // Check if the cell is available for placing a firewall
         Cell* selectedCell = player.getGame()->theBoard()->getCell(row, col);
-        // Board& gameBoard = Board::getInstance();
-        // Cell* selectedCell = gameBoard.getCell(row, col);
         if (selectedCell && selectedCell->getState() == '.') {
-            char firewallSymbol = player.getGame()->getTurn() == 1 ? 'm' : 'w';
+            char firewallSymbol = (player.getGame()->getTurn() == 1) ? 'm' : 'w';
             setUsed(true);
-            selectedCell->setState(firewallSymbol); // This will notify TextDisplay to update
+            selectedCell->setState(firewallSymbol); // Update the board
             cout << "Firewall " << firewallSymbol << " has been set at (" 
-                << col << ", " << row << ")" << endl;
+                 << col << ", " << row << ")" << endl;
             cout << *player.getGame()->theBoard();
 
-            // define whose firewall it is for the cell
-            if (player.getGame()->getTurn() == 1) selectedCell->toggleFirewall(1);
-            else selectedCell->toggleFirewall(2);
-            
-            break;
+            // Define whose firewall it is for the cell
+            if (player.getGame()->getTurn() == 1) {
+                selectedCell->toggleFirewall(1);
+            } else {
+                selectedCell->toggleFirewall(2);
+            }
 
+            break;  // Exit the loop once the firewall is successfully placed
         } else {
-            throw logic_error {"Cannot place a firewall on an occupied square."};
+            cerr << "Cannot place a firewall on an occupied square. Try again.\n";
         }
-
     }
-
-    
 }
+
 
 // Board& Scan::getGameBoard() {
 //     return Board::getInstance();

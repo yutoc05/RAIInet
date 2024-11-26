@@ -156,11 +156,16 @@ void Game::moveLink(char id, char dir) {
         (turn == 2 && b->getCell(posY, posX)->isFirewall(1))) {
         cout << "You've moved onto your opponent's Firewall!" << endl;
         curPlayer->getPureLink(id).reveal();
-        if (curPlayer->getPureLink(id).getIsData() == false)
-        {
+        if (curPlayer->getPureLink(id).getIsData() == false) {
             curPlayer->downloadLink(curPlayer->getPureLink(id));
+            curPlayer->removeLink(id);
+            b->getCell(posY, posX)->setState('.');
+        } else b->getCell(posY, posY)->setState(id);
+        if (turn == 1) {
+            b->getCell(posY, posX)->toggleFirewall(2);  //turn off firewall
+        } else {
+            b->getCell(posY, posX)->toggleFirewall(1);
         }
-        else b->getCell(posX, posY)->setState(id);
     } //if it lands on a player's blackhole
     else if ((turn == 1 && b->getCell(posY, posX)->isBlackhole(2)) ||
         (turn == 2 && b->getCell(posY, posX)->isBlackhole(1))) {
@@ -203,8 +208,7 @@ void Game::moveLink(char id, char dir) {
     } else { // lands on an empty cell: '.'
         b->getCell(posY, posX)->setState(id);
     }
-
-    
+    toggleTurn();
     b->notifyObservers();
 }
 
@@ -269,14 +273,14 @@ std::ostream &operator<<(std::ostream &out, const Game &g) {
                 count = 0;
             }
         }
-        //if (count != 0) out << endl;
+        if (count != 0) out << endl;
     }
     out << *g.b;
     out << "Player 2:" << endl;
     out << "Downloaded: " << g.player2->getNumData() << "D,  " << g.player2->getNumVirus() << "V" << endl;
     out << "Abilities: " << g.player2->getNumAbilities() << endl;
     if (g.turn == 2) {
-        out << *g.player2;
+        out << *g.player2 << endl;
     } else {
         int count = 0;
         for (const auto& [id, name] : g.player2->getLinkNames()) {
@@ -293,7 +297,7 @@ std::ostream &operator<<(std::ostream &out, const Game &g) {
                 count = 0;
             }
         }
-        //if (count != 0) out << endl;
+        if (count != 0) out << endl;
     }
     return out;
 }

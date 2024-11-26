@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
     gp->initPlayerOne(move(p1));
     gp->initPlayerTwo(move(p2));
     gp->init();
-    std::cout << *gp << endl;
+    std::cout << *gp;
 
     std::cout << "Player 1's turn." << endl;
 
@@ -146,12 +146,12 @@ int main(int argc, char* argv[]) {
                     return 0;
                 }
 
-                gp->toggleTurn();
+                //gp->toggleTurn();
                 //std::cout << *gp;
                 
                 usedAbility = false;
                     // print whose turn
-                    std::cout << endl;
+                //std::cout << endl;
                 if (gp->getTurn() == 1) std::cout << "Player 1's turn." << endl;
                 else std::cout << "Player 2's turn." << endl;
             }
@@ -173,7 +173,6 @@ int main(int argc, char* argv[]) {
             else if (command == "board") {
                 std::cout << *gp;
             }
-
             else if (command == "sequence") {
                 string fileName;
                 cin >> fileName;
@@ -203,16 +202,14 @@ int main(int argc, char* argv[]) {
                             return 0;
                         }
 
-                        gp->toggleTurn();
-                        std::cout << *gp;
-                        
+                        //gp->toggleTurn();
+                        //std::cout << *gp;
+                
                         usedAbility = false;
-                            // print whose turn
-                        if (gp->getTurn() == 1) {
-                            std::cout << "Player 1's turn." << endl;
-                        } else {
-                            std::cout << "Player 2's turn." << endl;
-                        }
+                        // print whose turn
+                        std::cout << endl;
+                        if (gp->getTurn() == 1) std::cout << "Player 1's turn." << endl;
+                        else std::cout << "Player 2's turn." << endl;
                     }
 
                     else if (command == "abilities") {
@@ -230,7 +227,7 @@ int main(int argc, char* argv[]) {
                     }
 
                     else if (command == "board") {
-                        std::cout << *gp->theBoard();
+                        std::cout << *gp;
                     }
 
                     // TODO:
@@ -261,13 +258,14 @@ int main(int argc, char* argv[]) {
                     } // catch
                 }
             }
-
             else if (command == "quit" || cin.eof()) {
                 return 0;
             }
 
             else {
                 cerr << "Invalid command, try again." << endl;
+                cin.clear();
+                cin.ignore(9999, '\n');
             }
         } // try
         catch (std::logic_error& r) {
