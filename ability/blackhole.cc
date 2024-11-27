@@ -22,7 +22,7 @@ void Blackhole::activate(Player& player, Player& opponent) {
         Cell* selectedCell = player.getGame()->theBoard()->getCell(row, col);
         if (selectedCell && selectedCell->getState() == '.') {
             setUsed(true);
-            selectedCell->setState(' '); // Invisible to the opponent
+            selectedCell->setState('.'); // Invisible to the opponent
             selectedCell->toggleBlackhole(true); // Mark the cell as a Blackhole internally
             std::cout << "Blackhole has been placed at (" << col << ", " << row << ")." << std::endl;
             break;

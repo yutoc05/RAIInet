@@ -168,6 +168,7 @@ int main(int argc, char* argv[]) {
                 cin >> index;
                 gp->useAbility(index-1); // (*) check valid index, not used yet
                 usedAbility = true; // ability has now been used this turn
+                std::cout << *gp;
             }
 
             else if (command == "board") {

@@ -88,7 +88,6 @@ void Game::moveLink(char id, char dir) {
         } else {
             break;  // Break out of the loop if valid
         }
-        cout << "Enter your move: ";
         // Get move input from the player
         cin >> id >> dir;
     }
@@ -187,12 +186,7 @@ void Game::moveLink(char id, char dir) {
     else if ((turn == 1 && b->getCell(posY, posX)->isBlackhole(2)) ||
         (turn == 2 && b->getCell(posY, posX)->isBlackhole(1))) {
         cout << "You've moved onto your opponent's Blackhole!" << endl;
-        curPlayer->getPureLink(id).reveal();
-        if (curPlayer->getPureLink(id).getIsData() == false)
-        {
-            curPlayer->removeLink(id);
-        }
-        else b->getCell(posX, posY)->setState(id);
+        curPlayer->removeLink(id);
     }
     // if it lands on other player's link = BATTLE!!
     // the only cell states left should be '.' and '[link]'
@@ -276,9 +270,9 @@ std::ostream &operator<<(std::ostream &out, const Game &g) {
         out << *g.player1 << endl;
     } else {
         int count = 0;
-        for (const auto& [id, name] : g.player2->getLinkNames()) {
+        for (const auto& [id, name] : g.player1->getLinkNames()) {
             count++;
-            const Link& link = g.player2->getLink(id); // Retrieve the link object
+            const Link& link = g.player1->getLink(id); // Retrieve the link object
             out << id << ": ";
             if (link.getIsRevealed()) {
                 out << name << " ";

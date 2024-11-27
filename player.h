@@ -57,6 +57,8 @@ class Player {
         void removeLink(char id);
         vector<Link> getOwns();
         const map<char, string>& getLinkNames() const;
+        bool linkExists(char id) const;
+        void setLinkName(char id, const string& newName);
         friend std::ostream &operator << (std::ostream &out, const Player &p);
 };
 

@@ -294,9 +294,23 @@ vector<Link> Player::getOwns() {
     return values;
 }
 
+bool Player::linkExists(char id) const{
+    return links.find(id) != links.end();
+}
+
 const map<char, string>& Player::getLinkNames() const {
     return linkNames;
 }
+
+void Player::setLinkName(char id, const std::string& newName) {
+    // Check if the link ID exists in the map
+    if (linkNames.find(id) == linkNames.end()) {
+        throw std::logic_error("Invalid link ID: " + std::string(1, id));
+    }
+    // Update the name in the map
+    linkNames[id] = newName;
+}
+
 
 std::ostream &operator<<(std::ostream &out, const Player &p) {
     int count = 0;
