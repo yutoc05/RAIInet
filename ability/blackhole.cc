@@ -30,5 +30,6 @@ void Blackhole::activate(Player& player, Player& opponent) {
             std::cerr << "Cannot place a Blackhole on an occupied square." << std::endl;
         }
     }
+    setUsed(true);
 }
 

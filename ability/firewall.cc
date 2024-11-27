@@ -52,6 +52,7 @@ void Firewall::activate(Player& player, Player& opponent) {
             cerr << "Cannot place a firewall on an occupied square. Try again.\n";
         }
     }
+    setUsed(true);
 }
 
 

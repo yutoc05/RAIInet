@@ -35,6 +35,7 @@ void ExtraStrength::activate(Player& player, Player& opponent ) {
         cout << "Link " << id << " has had extra strength added.\n";
         break; // Exit the loop since we found the link
     }
+    setUsed(true);
 }
 
 

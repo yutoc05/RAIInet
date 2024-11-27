@@ -15,6 +15,37 @@ Polarize::Polarize(Game*& theGame) : Ability("Polarize", theGame) {
 
 Polarize::~Polarize(){}
 
+void Polarize::activate(Player& player, Player& opponent) {
+    char id;
+
+    while (true) {
+        cin >> id;
+
+        // Get the link from the player
+        Link& link = opponent.getLink(id);
+        if (islower(id) && !opponent.linkExists(id)) {
+            cin.clear();
+            cin.ignore(9999, '\n');
+            cerr << "This link id does not exist. Try again." << endl;
+            continue;
+        } else if (link.getIsData()) {
+            link.setIsData(false);
+            string newName = "V" + to_string(link.getStrength());
+            opponent.setLinkName(id, newName);
+            cout << "Link " << id << " has been polarized from a Data to a Virus link." << endl;
+            break;  // Exit loop after successful polarization
+        } else {
+            link.setIsData(true);
+            string newName = "D" + to_string(link.getStrength());
+            opponent.setLinkName(id, newName);
+            cout << "Link " << id << " has been polarized from a Virus to a Data link." << endl;
+            break;  // Exit loop after successful polarization
+        }
+    }
+    setUsed(true);
+}
+
+/*
 void Polarize::activate(Player& player, Player& opponent) { 
     string linkName;
 
@@ -44,4 +75,6 @@ void Polarize::activate(Player& player, Player& opponent) {
             break;  // Exit loop after successful polarization
         }
     }
+    setUsed(true);
 }
+*/

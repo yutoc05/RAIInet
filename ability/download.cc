@@ -55,6 +55,7 @@ void Download::activate(Player& player, Player& opponent ) {
             break; // Exit the loop since we found the link
         }
     }
+    setUsed(true);
 }
 
 

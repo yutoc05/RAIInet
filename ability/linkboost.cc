@@ -36,6 +36,7 @@ void LinkBoost::activate(Player& player, Player& opponent ) {
             break; 
         }
     }
+    setUsed(true);
 }
 
 

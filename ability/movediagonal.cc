@@ -19,5 +19,6 @@ void MoveDiagonal::activate(Player& player, Player& opponent) {
     } catch (std::logic_error& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
+    setUsed(true);
 }
 
