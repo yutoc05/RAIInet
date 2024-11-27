@@ -76,9 +76,26 @@ void Game::moveLink(char id, char dir) {
         curOpponent = player1.get();
     }
 
+    bool validMove = false;
+    while (!validMove) {
+        // Check if the link exists
+        bool linkExists = curPlayer->linkExists(id);
+
+        if (!linkExists) {
+            cerr << "Invalid link id. Please try again." << endl;
+        } else if (dir != 'n' && dir != 'e' && dir != 's' && dir != 'w') {
+            cerr << "Invalid direction. Please try again." << endl;
+        } else {
+            break;  // Break out of the loop if valid
+        }
+        cout << "Enter your move: ";
+        // Get move input from the player
+        cin >> id >> dir;
+    }
     // old position
     int posX = curPlayer->getPureLink(id).getPosX();
     int posY = curPlayer->getPureLink(id).getPosY();
+    
 
     // prepare opposite direction in case of throw
     char oppDir;
