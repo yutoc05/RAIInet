@@ -8,7 +8,7 @@ class Xwindow;
 class GraphicsObserver : public Observer {
     Game *game;  // Pointer to Game for the observer to track the state
     Xwindow *window;
-    int getColor(char ch);
+    int getColor(int i, int j);
    public:
     GraphicsObserver();
     void addGame(Game* g);
