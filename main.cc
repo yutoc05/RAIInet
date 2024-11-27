@@ -7,6 +7,7 @@
 #include <ctime>
 #include "game.h"
 #include "player.h"
+#include "window.h"
 #include "ability/ability.h"
 #include "textobserver.h"
 //#include "graphicsdisplay.h"
@@ -89,12 +90,12 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        /*
+        
         else if (command == "-graphics") {
-            Xwindow w;
+            gp->getGraphicsObserver()->addGame(gp.get());
             gp->enableGraphics();
         }
-        */
+        
     } // for loop
 
     // if the links are not specified for each player

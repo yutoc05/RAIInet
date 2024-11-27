@@ -2,6 +2,8 @@
 #include "player.h"
 #include "board.h"
 #include "textobserver.h"
+#include "graphicsobserver.h"
+#include "window.h"
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -11,7 +13,7 @@ using namespace std;
 
 Game::Game() 
     : b{std::make_unique<Board>()}, player1{nullptr}, player2{nullptr}, td{std::make_unique<TextObserver>()}, 
-       showGraphic{false}, turn{1} {
+       gd{std::make_unique<GraphicsObserver>()}, showGraphic{false}, turn{1} {
     // Board (b) is initialized with a unique_ptr
 }
 
@@ -257,6 +259,10 @@ TextObserver* Game::getTextObserver() {
     return td.get();
 }
 
+GraphicsObserver* Game::getGraphicsObserver() {
+    return gd.get();
+}
+
 Board* Game::theBoard() {
     return b.get();
 }
@@ -312,7 +318,6 @@ std::ostream &operator<<(std::ostream &out, const Game &g) {
     }
     return out;
 }
-
 
 /*
 string Game::playerInfo(int player) {
@@ -408,12 +413,13 @@ std::ostream &operator<<(std::ostream &out, const Game &g) {
 }
 
 */
-/*
+
 void Game::enableGraphics() {
     showGraphic = true;
+    b->attach(move(gd));
 }
 
 bool Game::isGraphicsEnabled() {
     return showGraphic;
 }
-*/
+
