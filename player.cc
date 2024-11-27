@@ -187,26 +187,36 @@ void Player::moveLink(char id, char direction, bool isP1Turn) {
     //     case 's': posY += increment;
     // }
     
-    if (direction == 'n') {
-        if (isBoosted) {
-            link->moveU();
-        }
+    if (direction == 'u') {
+        if (isBoosted) link->moveU();
         link->moveU();
-    } else if (direction == 'w') {
-        if (isBoosted) {
-            link->moveL();
-        }
+    } else if (direction == 'l') {
+        if (isBoosted) link->moveL();
         link->moveL();
-    } else if (direction == 'e') {
-        if (isBoosted) {
+    } else if (direction == 'r') {
+        if (isBoosted) link->moveR();
+        link->moveR();
+    } else if (direction == 'd') {
+        if (isBoosted) link->moveD();
+        link->moveD();
+    } 
+    // Handle diagonal directions
+    else if (link->getIsDiagonal()) {
+        if (direction == 'q') { 
+            link->moveU();
+            link->moveL();
+        } else if (direction == 'e') { 
+            link->moveU();
+            link->moveR();
+        } else if (direction == 'z') { 
+            link->moveD();
+            link->moveL();
+        } else if (direction == 'c') { 
+            link->moveD();
             link->moveR();
         }
-        link->moveR();
-    }  else if (direction == 's') {
-        if (isBoosted) {
-            link->moveD();
-        }
-        link->moveD();
+    } else {
+        throw std::logic_error("Diagonal movement not allowed for this link.");
     }
 
     //check illegal moves

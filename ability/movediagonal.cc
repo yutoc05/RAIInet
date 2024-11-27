@@ -1,3 +1,5 @@
+//needs an adaptation of new command, move a down right, etc.
+
 #include "movediagonal.h"
 #include "../player.h"
 #include "../link.h"
@@ -19,6 +21,6 @@ void MoveDiagonal::activate(Player& player, Player& opponent) {
     } catch (std::logic_error& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
-    setUsed(true);
 }
+
 
