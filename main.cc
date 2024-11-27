@@ -22,11 +22,14 @@ int main(int argc, char* argv[]) {
     // setup
     bool linksSpecifiedOne = false;
     bool linksSpecifiedTwo = false;
+    bool abilitiesSpecifiedOne = false;
+    bool abilitiesSpecifiedTwo = false;
     
     for (int i = 1; i < argc; ++i) {
         string command = argv[i];
 
         if (command == "-ability1") {
+            abilitiesSpecifiedOne = true;
             if (i != argc-1 && argv[i+1][0] != '-') {
                 for (int j = 0; j < 5; ++j) {
                     p1->addAbility(argv[i+1][j]);
@@ -42,6 +45,7 @@ int main(int argc, char* argv[]) {
         }
 
         else if (command == "-ability2") {
+            abilitiesSpecifiedTwo = true;
             if (i != argc-1 && argv[i+1][0] != '-') {
                 for (int j = 0; j < 5; ++j) {
                     p2->addAbility(argv[i+1][j]);
@@ -113,10 +117,26 @@ int main(int argc, char* argv[]) {
         } // for
     }
 
+    if (!abilitiesSpecifiedOne) {
+        p1->addAbility('L');
+        p1->addAbility('F');
+        p1->addAbility('D');
+        p1->addAbility('S');
+        p1->addAbility('P');
+    }
+
+    if (!abilitiesSpecifiedTwo) {
+        p2->addAbility('L');
+        p2->addAbility('F');
+        p2->addAbility('D');
+        p2->addAbility('S');
+        p2->addAbility('P');
+    }
+
     gp->initPlayerOne(move(p1));
     gp->initPlayerTwo(move(p2));
     gp->init();
-    std::cout << *gp << endl;
+    std::cout << *gp;
 
     std::cout << "Player 1's turn." << endl;
 
@@ -143,8 +163,8 @@ int main(int argc, char* argv[]) {
                     return 0;
                 }
 
-                gp->toggleTurn();
-                std::cout << *gp;
+                //gp->toggleTurn();
+                //std::cout << *gp;
                 
                 usedAbility = false;
                     // print whose turn

@@ -10,7 +10,7 @@ MoveDiagonal::~MoveDiagonal() {}
 
 void MoveDiagonal::activate(Player& player, Player& opponent) {
     char linkId;
-    std::cout << "Enter the ID of the link to enable diagonal movement: ";
+    //std::cout << "Enter the ID of the link to enable diagonal movement: ";
     std::cin >> linkId;
 
     try {
