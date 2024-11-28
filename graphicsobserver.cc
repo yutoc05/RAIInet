@@ -1,21 +1,21 @@
 #include "graphicsobserver.h"
 #include "game.h"
 #include "window.h"
+#include "link.h"
 #include <iostream>
 #include <sstream>
 #include <string>
 using namespace std;
 
-GraphicsObserver::GraphicsObserver() {}
+const int sizeOfBlock = 10;
+
+GraphicsObserver::GraphicsObserver(): window{move(make_unique<Xwindow>(sizeOfBlock * 25, sizeOfBlock * 55))} {}
 
 void GraphicsObserver::addGame(Game* g) {
     game = g;
 }
 
-const int sizeOfBlock = 10;
-
 void GraphicsObserver::notify() {
-    Xwindow window{sizeOfBlock * 25, sizeOfBlock * 55};
     // print text over rectangles
     ostringstream oss;
     oss << *game;
@@ -27,72 +27,54 @@ void GraphicsObserver::notify() {
     const int lineSpacing = 25;
     // Draw each line at adjusted y-coordinates
     while (getline(iss, line)) {
-        window.drawString(10, currLine, line);
+        window->drawString(10, currLine, line);
         currLine += lineSpacing; // Move to the next line
     }
-    char c;
-    cin >> c; // Wait for user input before closing the window
 }
 
-/*int GraphicsObserver::getColor(int i, int j) {
+int GraphicsObserver::getColor(int i, int j) {
 	char name = game->theBoard()->charAt(i, j);
-	int index;
 	int player = 0;
-	string colourstrength;
-	string colour;
-	string strength;
 	if (name == '.') {
 		return Xwindow::White;
 	} else if (name == 'S') {
         return Xwindow::Blue;
 	} else if (name == 'M' || name == 'W') {
-		if (name == 'M'){
-			colour = "blueM";
-		}else {
-			colour = "blueW";
-		}
-		strength += "0";
+		return Xwindow::Purple;
 	} else if (name <= 'h' && name >= 'a') {
-		index = name - 'a';
 		player = 1;
 	} else if (name <= 'H' && name >= 'A') {
-		index = name - 'A';
 		player = 2;
 	}
-
-	if (player == 1 && playerTurn == 1) {
-		if (p1order[index][0] == 'V') {
-			colour = "red";
-		} else if (p1order[index][0] == 'D') {
-			colour = "green";
+	bool linkIsRevealed = game->theBoard()->getCell(i, j)->getLink()->getIsRevealed();
+	bool linkIsData = game->theBoard()->getCell(i, j)->getLink()->getIsData();
+	if (player == 1 && game->getTurn() == 1) { // a-h and p1 turn
+		if (linkIsData) {
+			return Xwindow::Green;
+		} else {
+			return Xwindow::Red;
 		}
-		strength += p1order[index][1];
-	} else if (player == 1 && playerTurn == 2) {
-		if (p1hidden[index]) {
-			colour = "black";
-		} else if (p1order[index][0] == 'V') {
-			colour = "red";
-		} else if (p1order[index][0] == 'D') {
-			colour = "green";
+	} else if (player == 1 && game->getTurn() == 2) { // a-h and p2 turn
+		if (!linkIsRevealed) {
+			return Xwindow::Black;
+		} else if (linkIsData) {
+			return Xwindow::Green;
+		} else {
+			return Xwindow::Red;
 		}
-		strength += p1order[index][1];
-	} else if (player == 2 && playerTurn == 1) {
-		if (p2hidden[index]) {
-			colour = "black";
-		} else if (p2order[index][0] == 'V') {
-			colour = "red";
-		} else if (p2order[index][0] == 'D') {
-			colour = "green";
+	} else if (player == 2 && game->getTurn() == 1) { // A-H and p1 turn
+		if (!linkIsRevealed) {
+			return Xwindow::Black;
+		} else if (linkIsData) {
+			return Xwindow::Green;
+		} else {
+			return Xwindow::Red;
 		}
-		strength += p2order[index][1];
-	} else if (player == 2 && playerTurn == 2) {
-		if (p2order[index][0] == 'V') {
-			colour = "red";
-		} else if (p2order[index][0] == 'D') {
-			colour = "green";
+	} else if (player == 2 && game->getTurn() == 2) { // A-H and p2 turn
+		if (linkIsData) {
+			return Xwindow::Green;
+		} else {
+			return Xwindow::Red;
 		}
-		strength += p2order[index][1];
 	}
-	colourstrength = name + strength + colour;
-	return colourstrength;
-}*/
+}

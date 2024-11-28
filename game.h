@@ -3,15 +3,14 @@
 #include "board.h"
 #include "textobserver.h"
 #include "graphicsobserver.h"
+#include "window.h"
 #include <iostream>
 #include <string>
 #include <memory>
 
-
 using namespace std;
 
 class Player;
-class Xwindow;
 
 class Game {
     unique_ptr<Board> b;

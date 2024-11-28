@@ -1,13 +1,15 @@
 #ifndef GRAPHICSOBSERVER_H
 #define GRAPHICSOBSERVER_H
 #include "observer.h"
+#include <memory>
+using namespace std;
 
 class Game;
 class Xwindow;
 
 class GraphicsObserver : public Observer {
     Game *game;  // Pointer to Game for the observer to track the state
-    Xwindow *window;
+    unique_ptr<Xwindow> window;
     int getColor(int i, int j);
    public:
     GraphicsObserver();
