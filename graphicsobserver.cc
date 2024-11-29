@@ -15,21 +15,84 @@ void GraphicsObserver::addGame(Game* g) {
     game = g;
 }
 
-void GraphicsObserver::notify() {
-    // print text over rectangles
-    ostringstream oss;
-    oss << *game;
-    // Split the text into lines
-    string text = oss.str();
-    istringstream iss{text};
-    string line;
-    int currLine = 10;
-    const int lineSpacing = 25;
-    // Draw each line at adjusted y-coordinates
-    while (getline(iss, line)) {
-        window->drawString(10, currLine, line);
-        currLine += lineSpacing; // Move to the next line
+struct charDifference {
+	int lineNumber;
+	int charPosition;
+	char newChar;
+}
+
+vector<string> splitIntoLines(const string &s) {
+	vector<string> lines;
+	istringstream iss{s};
+	string line;
+	while (getline(iss, line)) {
+        lines.push_back(line);
     }
+	return lines;
+}
+
+vector<charDifference> getCharDifferences(const string &s1, const string &s2) {
+	vector<string> lines1 = splitIntoLines(s1);
+	vector<string> lines2 = splitIntoLines(s2);
+	vector<charDifference> differences;
+	for (int i = 0; i < lines1.size(); ++i) {
+		const string &line1 = lines1[i];
+		const string &line2 = lines2[i];
+		for (j = 0; j < line1.size(); ++j) {
+			char char1 = line1[j];
+			char char2 = line2[j];
+			if (char1 != char2) {
+				differences.push_back(charDifference{
+					i, // line number (0-indexed)
+					j, // character position (0-indexed)
+					char2 // new character
+				})
+			}
+		}
+	}
+	return differences;
+}
+
+void GraphicsObserver::notify() {
+    ostringstream oss;
+    oss << *game; // uses operator<< to retrieve stringstream
+    string currState = oss.str();
+	const int xSpacing = 5; // don't know the spacing between letters yet (ffs y the servers smoking)
+    const int ySpacing = 25;
+	const int xBoardSpacing = 40;
+	const int yBoardSpacing = 40;
+	if (prevState) { // only uses chardifference if prevState is not ""
+		vector<charDifference> charDifferences = getCharDifferences(prevState, currState);
+		prevState = currState;
+		for (const charDifference &diff : charDifferences) { // iterates through charDifferences, so will rewrite as little as possible
+			if (diff.lineNumber >= 6 && diff.lineNumber <= 13) { // board
+				int x = 10 + xBoardSpacing * diff.charPosition;
+				int y = 10 + yBoardSpacing * diff.lineNumber;
+				int color = getColor(diff.charPosition, diff.lineNumber - 6);
+				if (color == Xwindow::White && color == Xwindow::Blue && color == Xwindow::Black) { // avoid drawing character for servers, unknowns, empty cells
+					window->fillRectangle(x, y, xBoardSpacing, yBoardSpacing, color);
+				} else {
+					window->fillRectangle(x, y, xBoardSpacing, yBoardSpacing, color);
+					window->drawString(x, y, diff.newChar);
+				}
+			} else {
+				int x = 10 + xSpacing * diff.charPosition;
+				int y = 10 + ySpacing * diff.lineNumber;
+				window->fillRectangle(x, y, xSpacing, ySpacing, Xwindow::White); // erases
+				window->drawString(x, y, diff.newChar);
+			}
+		}
+	} else { // runs if this is first time we print to window
+		istringstream iss{text};
+    	string line;
+    	int currLine = 10;
+    	const int lineSpacing = 25;
+    	// draw each line at adjusted y-coordinates
+    	while (getline(iss, line)) {
+    	    window->drawString(10, currLine, line);
+    	    currLine += lineSpacing; // move to the next line
+    	}
+	}
 }
 
 int GraphicsObserver::getColor(int i, int j) {
