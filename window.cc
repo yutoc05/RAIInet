@@ -40,6 +40,13 @@ Xwindow::Xwindow(int width, int height) : width{width}, height{height} {
       colours[i]=xcolour.pixel;
   }
 
+  // Add a custom color for Purple
+  xcolour.red = 65535;   // Maximum red
+  xcolour.green = 0;     // No green
+  xcolour.blue = 65535;  // Maximum blue
+  XAllocColor(d, cmap, &xcolour);
+  colours[5] = xcolour.pixel;  // Assign to colours[Purple]
+
   XSetForeground(d,gc,colours[Black]);
 
   // Make window non-resizeable.

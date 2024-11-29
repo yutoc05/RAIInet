@@ -7,6 +7,7 @@
 #include <ctime>
 #include "game.h"
 #include "player.h"
+#include "window.h"
 #include "ability/ability.h"
 #include "textobserver.h"
 //#include "graphicsdisplay.h"
@@ -86,12 +87,12 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        /*
+        
         else if (command == "-graphics") {
-            Xwindow w;
+            gp->getGraphicsObserver()->addGame(gp.get());
             gp->enableGraphics();
         }
-        */
+        
     } // for loop
 
     // if the links are not specified for each player
@@ -184,10 +185,12 @@ int main(int argc, char* argv[]) {
                 cin >> index;
                 gp->useAbility(index-1); // (*) check valid index, not used yet
                 usedAbility = true; // ability has now been used this turn
+                // std::cout << *gp;
             }
 
             else if (command == "board") {
-                std::cout << *gp;
+                gp->theBoard()->notifyObservers();
+                // std::cout << *gp;
             }
 
             else if (command == "sequence") {
