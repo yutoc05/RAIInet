@@ -19,7 +19,7 @@ struct charDifference {
 	int lineNumber;
 	int charPosition;
 	char newChar;
-}
+};
 
 vector<string> splitIntoLines(const string &s) {
 	vector<string> lines;
