@@ -232,6 +232,7 @@ void Game::useAbility(int i) {
     } else {
         player2->useAbility(i, *player1);
     }
+    b->notifyObservers();
 }
 
 int Game::getTurn() const{ return turn; }
