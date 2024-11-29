@@ -137,7 +137,8 @@ int main(int argc, char* argv[]) {
     gp->initPlayerOne(move(p1));
     gp->initPlayerTwo(move(p2));
     gp->init();
-    std::cout << *gp;
+    //std::cout << *gp;
+    gp->theBoard()->notifyObservers();
 
     std::cout << "Player 1's turn." << endl;
 
