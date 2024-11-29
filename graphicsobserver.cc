@@ -46,7 +46,7 @@ string getLine(const string &s, int lineNumber) {
     vector<string> lines = splitIntoLines(s);
     
     // Return the line if it exists
-    if (lineNumber >= 0 && lineNumber < lines.size()) {
+    if (lineNumber >= 0 && lineNumber < (int)lines.size()) {
         return lines[lineNumber];
     } else {
         return ""; // Return an empty string if lineNumber is out of range
@@ -131,7 +131,9 @@ int GraphicsObserver::getColor(int i, int j) {
 	} else if (name <= 'H' && name >= 'A') {
 		player = 2;
 	}
+	game->toggleTurn();
 	Link& l = game->getCurrentPlayer()->getPureLink(name);
+	game->toggleTurn();
 	bool linkIsRevealed = l.getIsRevealed();
 	bool linkIsData = l.getIsData();
 	if (player == 1 && game->getTurn() == 1) { // a-h and p1 turn
@@ -163,4 +165,5 @@ int GraphicsObserver::getColor(int i, int j) {
 			return Xwindow::Red;
 		}
 	}
-	}
+	return Xwindow::White;
+}
