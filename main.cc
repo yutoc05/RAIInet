@@ -17,11 +17,8 @@ using namespace std;
 int main(int argc, char* argv[]) {
     unique_ptr<Game> gp = make_unique<Game> ();
     unique_ptr<Player> p1 = make_unique<Player>(gp.get());
-    //gp->initPlayerOne(move(p1));
     unique_ptr<Player> p2 = make_unique<Player>(gp.get());
-    //gp->initPlayerTwo(move(p2));
     gp->getTextObserver()->addGame(gp.get());
-    
     std::cout << "Welcome to RAIInet!" << endl;
     // setup
     bool linksSpecifiedOne = false;
@@ -137,12 +134,11 @@ int main(int argc, char* argv[]) {
         p2->addAbility('P');
     }
 
-    
-
     gp->initPlayerOne(move(p1));
     gp->initPlayerTwo(move(p2));
     gp->init();
-    std::cout << *gp;
+    //std::cout << *gp;
+    gp->theBoard()->notifyObservers();
 
     std::cout << "Player 1's turn." << endl;
 
@@ -174,7 +170,6 @@ int main(int argc, char* argv[]) {
                 
                 usedAbility = false;
                     // print whose turn
-                //std::cout << endl;
                 if (gp->getTurn() == 1) std::cout << "Player 1's turn." << endl;
                 else std::cout << "Player 2's turn." << endl;
             }
@@ -198,6 +193,7 @@ int main(int argc, char* argv[]) {
                 gp->theBoard()->notifyObservers();
                 // std::cout << *gp;
             }
+
             else if (command == "sequence") {
                 string fileName;
                 cin >> fileName;
@@ -219,7 +215,7 @@ int main(int argc, char* argv[]) {
                         char linkId;
                         char direction;
                         f >> linkId >> direction;
-                        // directions can be 'north', 'east', 'south', 'west'
+                        
                         gp->moveLink(linkId, direction); // (*) check valid id, direction, 
                         // check if finished
                         if (gp->checkFinished()) {
@@ -227,12 +223,11 @@ int main(int argc, char* argv[]) {
                             return 0;
                         }
 
-                        //gp->toggleTurn();
-                        //std::cout << *gp;
-                
+                        gp->toggleTurn();
+                        std::cout << *gp;
+                        
                         usedAbility = false;
-                        // print whose turn
-                        std::cout << endl;
+                            // print whose turn
                         if (gp->getTurn() == 1) std::cout << "Player 1's turn." << endl;
                         else std::cout << "Player 2's turn." << endl;
                     }
@@ -283,14 +278,13 @@ int main(int argc, char* argv[]) {
                     } // catch
                 }
             }
+
             else if (command == "quit" || cin.eof()) {
                 return 0;
             }
 
             else {
                 cerr << "Invalid command, try again." << endl;
-                cin.clear();
-                cin.ignore(9999, '\n');
             }
         } // try
         catch (std::logic_error& r) {

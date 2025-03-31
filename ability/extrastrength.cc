@@ -31,6 +31,11 @@ void ExtraStrength::activate(Player& player, Player& opponent ) {
         else throw logic_error {"Invalid Id. Try again."};
 
         l->setStrength(l->getStrength() + 1);
+        char linkType = l->getIsData() ? 'D' : 'V';  // 'D' for Data, 'V' for Virus
+        string newName = string(1, linkType) + std::to_string(l->getStrength());
+
+        // Update the link's name in the player’s link map
+        player.setLinkName(id, newName);
         setUsed(true);
         cout << "Link " << id << " has had extra strength added.\n";
         break; // Exit the loop since we found the link

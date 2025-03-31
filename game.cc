@@ -85,7 +85,8 @@ void Game::moveLink(char id, char dir) {
 
         if (!linkExists) {
             cerr << "Invalid link id. Please try again." << endl;
-        } else if (dir != 'n' && dir != 'e' && dir != 's' && dir != 'w') {
+        } else if (dir != 'u' && dir != 'r' && dir != 'd' && dir != 'l' 
+                && dir != 'q' && dir != 'e' && dir != 'z' && dir != 'c') {
             cerr << "Invalid direction. Please try again." << endl;
         } else {
             break;  // Break out of the loop if valid
@@ -97,23 +98,39 @@ void Game::moveLink(char id, char dir) {
     int posX = curPlayer->getPureLink(id).getPosX();
     int posY = curPlayer->getPureLink(id).getPosY();
     
+     // Calculate target position based on direction
+    int targetX = posX, targetY = posY;
+    if (dir == 'u') targetY--;
+    else if (dir == 'd') targetY++;
+    else if (dir == 'l') targetX--;
+    else if (dir == 'r') targetX++;
+    else if (dir == 'q') { targetY--; targetX--; }  // Up-left
+    else if (dir == 'e') { targetY--; targetX++; }  // Up-right
+    else if (dir == 'z') { targetY++; targetX--; }  // Down-left
+    else if (dir == 'c') { targetY++; targetX++; }  // Down-right
 
     // prepare opposite direction in case of throw
     char oppDir;
-    if (dir == 'n') oppDir = 's';
-    if (dir == 'e') oppDir = 'w';
-    if (dir == 's') oppDir = 'n';
-    if (dir == 'w') oppDir = 'e';
+    if (dir == 'u') oppDir = 'd';
+    if (dir == 'r') oppDir = 'l';
+    if (dir == 'd') oppDir = 'u';
+    if (dir == 'l') oppDir = 'r';
 
-    // moving
+    if (dir == 'q') oppDir = 'c';
+    if (dir == 'e') oppDir = 'z';
+    if (dir == 'z') oppDir = 'e';
+    if (dir == 'c') oppDir = 'q';
+
+    //move it 
     curPlayer->moveLink(id, dir, turn);
+
 
     // change old cell
     // if was on firewall:
     if (b->getCell(posY, posX)->isFirewall(1)) {
-        b->getCell(posY, posX)->setState('m');
+        b->getCell(posY, posX)->setState('M');
     } else if (b->getCell(posY, posX)->isFirewall(1)) {
-        b->getCell(posY, posX)->setState('w');
+        b->getCell(posY, posX)->setState('W');
     } else  { //if normal cell
         b->getCell(posY, posX)->setState('.');
     }
@@ -224,6 +241,10 @@ void Game::moveLink(char id, char dir) {
     toggleTurn();
     b->notifyObservers();
 }
+
+
+
+
 
 void Game::useAbility(int i) {
     if (i < 0 || i > 5) throw logic_error {"Ability index out of range. Try again."};
